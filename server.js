@@ -40,19 +40,19 @@ app.use('/forgotpassword', forgotPasswordRoute)
 // connectMongodbdb()
 // connectMongodb()
 
-app.get("/login", (req, res)=>{
-    //  res.send("welcome")
-     res.redirect("https://google.com")
-})
+// app.get("/login", (req, res)=>{
+//     //  res.send("welcome")
+//      res.redirect("https://google.com")
+// })
 
-require('./utils/googleAuthenticate.js')
-app.get('/auth/google',passport.authenticate('google', { scope:[ 'email', 'profile' ] }));
-app.get('/auth/google/callback', 
-passport.authenticate('google', {
-    failureRedirect: '/login'
-  }), (req,res)=>{
-    res.redirect("https://medical-info.vercel.app")
-  })
+// require('./utils/googleAuthenticate.js')
+// app.get('/auth/google',passport.authenticate('google', { scope:[ 'email', 'profile' ] }));
+// app.get('/auth/google/callback', 
+// passport.authenticate('google', {
+//     failureRedirect: '/login'
+//   }), (req,res)=>{
+//     res.redirect("https://medical-info.vercel.app")
+//   })
 
 
 //catch errors middleware
