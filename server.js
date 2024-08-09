@@ -1,5 +1,5 @@
 const express = require("express")
-const {connectSQLdb} = require("./database/mySQLdb")
+// const {connectSQLdb} = require("./database/mySQLdb")
 const connectMongodb = require("./database/mongodb")
 const dailyTips = require("./Routes&Controllers/Dailytips/dailytipsController")
 const doctorRoute = require("./Authentication/Doctor/doctorRouter")
