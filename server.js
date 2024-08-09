@@ -1,6 +1,6 @@
 const express = require("express")
 // const {connectSQLdb} = require("./database/mySQLdb")
-const connectMongodb = require("./database/mongodb")
+// const connectMongodb = require("./database/mongodb")
 const dailyTips = require("./Routes&Controllers/Dailytips/dailytipsController")
 const doctorRoute = require("./Authentication/Doctor/doctorRouter")
 const patientRoute = require("./Authentication/Patient/patientRouter")
@@ -11,7 +11,7 @@ const session = require("express-session")
 require("dotenv").config()
 
 const app = express()
-const port = process.env.PORT
+const port = process.env.PORT || 3000
 
 app.use(express.json())//JSON middleware
 app.use(express.urlencoded({extended: false}))
@@ -38,7 +38,7 @@ app.use('/diseases', diseases)
 app.use('/forgotpassword', forgotPasswordRoute)
 
 // connectMongodbdb()
-connectMongodb()
+// connectMongodb()
 
 app.get("/login", (req, res)=>{
     //  res.send("welcome")
