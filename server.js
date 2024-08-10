@@ -1,6 +1,6 @@
 const express = require("express")
-// const {connectSQLdb} = require("./database/mySQLdb")
-// const connectMongodb = require("./database/mongodb")
+const {connectSQLdb} = require("./database/mySQLdb")
+const connectMongodb = require("./database/mongodb")
 const dailyTips = require("./Routes&Controllers/Dailytips/dailytipsController")
 const doctorRoute = require("./Authentication/Doctor/doctorRouter")
 const patientRoute = require("./Authentication/Patient/patientRouter")
@@ -11,7 +11,7 @@ const session = require("express-session")
 require("dotenv").config()
 
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT
 
 app.use(express.json())//JSON middleware
 app.use(express.urlencoded({extended: false}))
@@ -36,23 +36,22 @@ app.use('/doctor', doctorRoute)
 app.use('/api/patient', patientRoute)
 app.use('/diseases', diseases)
 app.use('/forgotpassword', forgotPasswordRoute)
+// connectSQLdb()
+connectMongodb()
 
-// connectMongodbdb()
-// connectMongodb()
+app.get("/login", (req, res)=>{
+    //  res.send("welcome")
+     res.redirect("https://google.com")
+})
 
-// app.get("/login", (req, res)=>{
-//     //  res.send("welcome")
-//      res.redirect("https://google.com")
-// })
-
-// require('./utils/googleAuthenticate.js')
-// app.get('/auth/google',passport.authenticate('google', { scope:[ 'email', 'profile' ] }));
-// app.get('/auth/google/callback', 
-// passport.authenticate('google', {
-//     failureRedirect: '/login'
-//   }), (req,res)=>{
-//     res.redirect("https://medical-info.vercel.app")
-//   })
+require('./utils/googleAuthenticate.js')
+app.get('/auth/google',passport.authenticate('google', { scope:[ 'email', 'profile' ] }));
+app.get('/auth/google/callback', 
+passport.authenticate('google', {
+    failureRedirect: '/login'
+  }), (req,res)=>{
+    res.redirect("https://medical-info.vercel.app")
+  })
 
 
 //catch errors middleware
