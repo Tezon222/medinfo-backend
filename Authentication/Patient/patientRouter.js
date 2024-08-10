@@ -1,10 +1,9 @@
 const express = require('express')
 const route = express.Router()
-const {getPatients, signupPatient,loginPatient} = require("./patientController")
+const {getPatients,getSinglePatient, signupPatient,loginPatient} = require("./patientController")
+
 route.get("/", getPatients)
-route.get("/:id", (req,res)=>{
-    res.send('Get Particular Patient')
-})
+route.get("/:id", getSinglePatient)
 route.post("/signup", signupPatient)
 route.post("/login", loginPatient)
 route.put("/update/:id", (req,res)=>{

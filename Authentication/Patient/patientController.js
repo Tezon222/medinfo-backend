@@ -10,6 +10,17 @@ const getPatients = async(req,res)=>{
   res.status(200).json({message: users})
 }
 
+const getSinglePatient = async(req,res)=>{
+  try {
+    const {id} = req.params
+    const user = await Patient.findById(id)
+    if(!user){ res.status(400).json({message: "User does not exist"})}
+    res.status(200).json({message: user})
+  } catch (error) {
+    res.status(400).json({message:error})
+  }
+}
+
 // signup Patients
 const signupPatient = async(req,res)=>{
         const {firstName, lastName, email, password, country} = req.body
@@ -53,4 +64,4 @@ const loginPatient = async(req,res) =>{
     }
 }
 
-module.exports = {signupPatient, getPatients, loginPatient}
+module.exports = {signupPatient, getPatients, getSinglePatient, loginPatient}

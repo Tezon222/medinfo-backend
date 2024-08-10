@@ -35,7 +35,7 @@ app.use(session({
   })
   app.use('/dailyTips', dailyTips)
   app.use('/doctor', doctorRoute)
-app.use('/api/patient', patientRoute)
+app.use('/patient', patientRoute)
 app.use('/diseases', diseases)
 app.use('/forgotpassword', forgotPasswordRoute)
 // connectSQLdb()
@@ -52,10 +52,8 @@ app.get('/auth/google/callback',
 passport.authenticate('google', {
     failureRedirect: '/login'
   }), (req,res)=>{
-    res.redirect("https://medical-info.vercel.app")
-    // res.status(201).json({message:req.user}).redirect("https://medical-info.vercel.app")
+    res.redirect(`https://medical-info.vercel.app/?id=${req.user._id}`)
   })
-
 
 //catch errors middleware
 app.use((err, req, res, next) => {
