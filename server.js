@@ -1,5 +1,5 @@
 const express = require("express")
-const {connectSQLdb} = require("./database/mySQLdb")
+// const {connectSQLdb} = require("./database/mySQLdb")
 const connectMongodb = require("./database/mongodb")
 const dailyTips = require("./Routes&Controllers/Dailytips/dailytipsController")
 const doctorRoute = require("./Authentication/Doctor/doctorRouter")
@@ -15,11 +15,10 @@ const port = process.env.PORT
 
 app.use(express.json())//JSON middleware
 app.use(express.urlencoded({extended: false}))
-
 app.use(session({
-    secret: 'suii',
-    resave: false,
-    saveUninitialized: true,
+  secret: 'suii',
+  resave: false,
+  saveUninitialized: true,
   }))
   app.use(passport.authenticate('session'))
   app.use(passport.initialize())
@@ -30,9 +29,12 @@ app.use(session({
   passport.deserializeUser(function(user, done) {
     done(null, user);
   });
-
-app.use('/dailyTips', dailyTips)
-app.use('/doctor', doctorRoute)
+  
+  app.get('/session', (req,res)=>{
+    res.send(req.user)
+  })
+  app.use('/dailyTips', dailyTips)
+  app.use('/doctor', doctorRoute)
 app.use('/api/patient', patientRoute)
 app.use('/diseases', diseases)
 app.use('/forgotpassword', forgotPasswordRoute)
@@ -51,6 +53,7 @@ passport.authenticate('google', {
     failureRedirect: '/login'
   }), (req,res)=>{
     res.redirect("https://medical-info.vercel.app")
+    // res.status(201).json({message:req.user}).redirect("https://medical-info.vercel.app")
   })
 
 
