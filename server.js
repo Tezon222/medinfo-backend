@@ -1,6 +1,6 @@
 const express = require("express")
 // const {connectSQLdb} = require("./database/mySQLdb")
-// const connectMongodb = require("./database/mongodb")
+const connectMongodb = require("./database/mongodb")
 const dailyTips = require("./Routes&Controllers/Dailytips/dailytipsController")
 const doctorRoute = require("./Authentication/Doctor/doctorRouter")
 const patientRoute = require("./Authentication/Patient/patientRouter")
@@ -39,7 +39,7 @@ app.use('/patient', patientRoute)
 app.use('/diseases', diseases)
 app.use('/forgotpassword', forgotPasswordRoute)
 // connectSQLdb()
-// connectMongodb()
+connectMongodb()
 
 app.get("/login", (req, res)=>{
     //  res.send("welcome")
