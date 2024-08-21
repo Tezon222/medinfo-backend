@@ -118,7 +118,7 @@
     Example of comment as an object in an array field in the Post's blablabla you get the point:
     ```json
     {
-    ....
+    
         "comments": [
         {
             "commentAuthor": "JohnPaul",
@@ -126,6 +126,6 @@
             "_id": "66c64c078f7a99e53af03f33",
             "commentDate": "2024-08-21T20:20:23.590Z"
         }
-        ]....
+        ]
     }
     ```
