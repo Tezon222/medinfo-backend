@@ -23,9 +23,9 @@ const getSinglePatient = async(req,res)=>{
 
 // signup Patients
 const signupPatient = async(req,res)=>{
-        const {firstName, lastName, email, password, country} = req.body
-        try {  
-            if(!firstName || !lastName || !email || !password || !country){
+    const {firstName, lastName, email, password, country} = req.body
+      try {  
+          if(!firstName || !lastName || !email || !password || !country){
                 res.status(400).json({message: "Please fill all fields"})  
             } 
     const user =await Patient.findOne({email});

@@ -25,6 +25,9 @@ const Patients = new Schema({
     isDoctor:{
         type: Boolean,
         default: false
+    },
+    otp:{
+        
     }
 },{
     timestamps: true
