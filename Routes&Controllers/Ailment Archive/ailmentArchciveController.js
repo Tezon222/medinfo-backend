@@ -1,5 +1,3 @@
-const express = require("express")
-const router = express.Router()
 const path = require('path')
 const fs = require('fs')
 
@@ -8,8 +6,8 @@ const diseaseFilePath = path.join(__dirname, 'medinfo.json')
 // @desc    Get All Diseases
 // @route   GET /diseases/allDiseases?page=${}&limit=6
 // @returns Object of page, limit, total diseases and Diseases Array
-// @access  Public
-router.get('/allDiseases', (req, res) => {
+// @access  Public 
+const getAllDiseases = (req, res) => {
     try {
         fs.readFile(diseaseFilePath, 'utf8', (err, data) => {
             if (err) {
@@ -48,13 +46,13 @@ router.get('/allDiseases', (req, res) => {
     } catch (err) {
         res.status(500).json({ message: `Error fetching data from JSON file: ${err}` })
     }
-})
+}
 
 // @desc    Get One Diseases
-// @route   GET /diseases/disease?name=${}
+// @route   GET /diseases/oneDisease?name=${}
 // @returns Object of specific Disease containing disease, symptom, description and precaution
 // @access  Public
-router.get("/disease", (req, res) => {
+const getOneDisease = (req, res) => {
     try {
         fs.readFile(diseaseFilePath, 'utf8', (err, data) => {
             if (err) {
@@ -85,13 +83,13 @@ router.get("/disease", (req, res) => {
     } catch (err) {
         res.status(500).json({ message: `Error fetching data from JSON file: ${err}` })
     }
-})
+}
 
 /**ADMIN ACCESS ROUTES**/
 // @desc    Add a New Disease
 // @route   POST /diseases/addDisease
 // @access  Private
-router.post('/addDisease', (req, res) => {
+const addDisease = (req, res) => {
     try {
         fs.readFile(diseaseFilePath, 'utf8', (err, data) => {
             if (err) {
@@ -123,12 +121,12 @@ router.post('/addDisease', (req, res) => {
     } catch (err) {
         res.status(500).json({ message: `Error processing request: ${err}` })
     }
-})
+}
 
 // @desc    Add a New Disease
 // @route   PUT /diseases/updateDisease?name=${}
 // @access  Private
-router.put('/updateDisease', (req, res) => {
+const updateDisease = (req, res) => {
     try {
         fs.readFile(diseaseFilePath, 'utf8', (err, data) => {
             if (err) {
@@ -175,12 +173,12 @@ router.put('/updateDisease', (req, res) => {
     } catch (err) {
         res.status(500).json({ message: `Error processing request: ${err}` })
     }
-})
+}
 
 // @desc    DELETE One Disease
 // @route   DELETE /diseases?name=${}
 // @access  Private
-router.delete("/", (req, res)=>{
+const deleteDisease = (req, res) => {
     try {
         fs.readFile(diseaseFilePath, 'utf8', (err, data) => {
             if (err) {
@@ -222,6 +220,12 @@ router.delete("/", (req, res)=>{
     } catch (err) {
         res.status(500).json({ message: `Error processing request: ${err}` })
     }
-})
+}
 
-module.exports = router;
+module.exports = {
+    getAllDiseases,
+    getOneDisease,
+    addDisease,
+    updateDisease,
+    deleteDisease
+};
