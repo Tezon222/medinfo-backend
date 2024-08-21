@@ -2,6 +2,7 @@
 
 ## Routes
 1. GET '/diseases/allDiseases?page=${}&limit=6'
+   
  **This route returns all diseases(with just the DIseasename and Description Property) but paginates them by returning 6 at a time
  **Also returns the page, limit and totalDiseases avialable
  **The frontend should initialize by making a request to /allDiseases?page=1&limit=6 to get the first set of diseases.
