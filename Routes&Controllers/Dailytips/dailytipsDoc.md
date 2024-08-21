@@ -3,7 +3,9 @@
 ## Routes
 1. '/dailyTips/tips' 
  This route RETURNS an object of 6 items.
+
  This is for use in the daily tips section of the hompage. 
+ 
  Each item includes a Title, Image Url and ID.
  Example-
    ```json
@@ -13,9 +15,11 @@
     "title": "Get Screened"
      }
    ```
-2. '/dailyTips/tip/:id' 
+3. '/dailyTips/tip/:id' 
  This route RETURNS an object with the information for a single tip.
+
  This is for use in an expanded daily tip page.
+ 
  The object includes an Image Url, Alternative Image, LastUpdated(which is compulsory in the TOS of the myhealthfinder API), and Mainbody (which is an array of the main info to be displayed on the webpage).
  Example-
    ```json
