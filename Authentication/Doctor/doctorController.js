@@ -17,7 +17,7 @@ const signupDoctor = async(req,res)=>{
                 res.status(400).json({message: "Please fill all fields"})  
             } 
     const user =await Doctor.findOne({email});
-    const emailTrue = emailValidator(email)
+    const emailTrue = emailValidator(email)  
     if(!emailTrue){
       res.status(400).json({message:"please enter a valid Email"})
     }

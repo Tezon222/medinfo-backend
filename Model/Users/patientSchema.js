@@ -22,6 +22,10 @@ const Patients = new Schema({
     country:{
         type: String,
     },
+    isDoctor:{
+        type: Boolean,
+        default: false
+    }
 },{
     timestamps: true
 })
