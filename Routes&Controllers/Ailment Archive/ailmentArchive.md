@@ -4,7 +4,9 @@
 1. GET '/diseases/allDiseases?page=${}&limit=6'
    
  **This route returns all diseases(with just the DIseasename and Description Property) but paginates them by returning 6 at a time
+ 
  **Also returns the page, limit and totalDiseases avialable
+ 
  **The frontend should initialize by making a request to /allDiseases?page=1&limit=6 to get the first set of diseases.
  **When the 'see more' button is clicked, the frontend should increment the page parameter and make another request, for example, /allDiseases?page=2&limit=6, to get the next set of diseases.
  **This process continues, incrementing the page number with each 'see more' button click, to load additional diseases.
