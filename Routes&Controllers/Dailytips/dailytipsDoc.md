@@ -1,7 +1,8 @@
 # DOCUMENTATION FOR dailyTips API 
 
 ## Routes
-1. '/dailyTips/tips' 
+1. '/dailyTips/tips'
+   
  This route RETURNS an object of 6 items.
 
  This is for use in the daily tips section of the hompage. 
@@ -15,7 +16,8 @@
     "title": "Get Screened"
      }
    ```
-3. '/dailyTips/tip/:id' 
+2. '/dailyTips/tip/:id' 
+ 
  This route RETURNS an object with the information for a single tip.
 
  This is for use in an expanded daily tip page.
