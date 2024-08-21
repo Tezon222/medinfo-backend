@@ -7,6 +7,8 @@ const patientRoute = require("./Authentication/Patient/patientRouter")
 const diseases = require("./Routes&Controllers/Ailment Archive/ailmentArchciveController")
 const forgotPasswordRoute = require("./Authentication/ForgotPassword")
 const passport = require("passport")
+const paths = require("path")
+const {sendEmail} = require("./utils/sendEmail.js")
 const session = require("express-session")
 require("dotenv").config()
 
@@ -54,7 +56,6 @@ passport.authenticate('google', {
   }), (req,res)=>{
     res.redirect(`https://medical-info.vercel.app/?id=${req.user._id}`)
   })
-
 //catch errors middleware
 app.use((err, req, res, next) => {
     console.log(err);

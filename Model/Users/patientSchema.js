@@ -22,6 +22,9 @@ const Patients = new Schema({
     country:{
         type: String,
     },
+    otp:{
+        
+    }
 },{
     timestamps: true
 })
