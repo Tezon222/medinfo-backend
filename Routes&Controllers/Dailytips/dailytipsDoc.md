@@ -11,8 +11,7 @@
     "url": "https://health.gov/sites/default/files/2022-07/gs.jpg",
     "id": "531",
     "title": "Get Screened"
-     }
-```
+     } ```
 2. '/dailyTips/tip/:id' 
  This route RETURNS an object with the information for a single tip.
  This is for use in an expanded daily tip page.
@@ -32,13 +31,13 @@
         "Title": "The Basics: Recommended Ages",
         "Description": "",
         "Content": "<h4>When does my child need to get the HPV vaccine?</h4><p><span>Doctors recommend that all...etc"
-        }]
-```
+        }]```
 
 ## MyHealthfinderAPITermsofUse
 1. The user must display the MyHealthfinder logo and URL as the content source wherever MyHealthfinder content is used. To properly use the MyHealthfinder API, we ask you to embed the following code wherever MyHealthfinder content appears on your site.
 
 ---FRONTEND DEVS PLEASE INCLUDE THIS IN RELEVANT PAGES---
+
 2. The logo and URL only need to appear once on a webpage where MyHealthfinder content appears. Please reference MyHealthfinder as the source, provide credit and link to health.gov/myhealthfinder. You don’t need to display the URL — wrapping the URL around the MyHealthfinder logo is the proper format.
     Code:
     ```html
@@ -46,6 +45,7 @@
     <img src="https://health.gov/themes/custom/healthfinder/images/MyHF.svg" alt="MyHealthfinder"/>
     </a>
     ```
+    
 ---FRONTEND DEVS PLEASE INCLUDE THIS IN RELEVANT PAGES---
 
 3. When displaying topic details, inform visitors of the last time the content was updated.
