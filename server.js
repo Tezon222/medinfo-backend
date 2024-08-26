@@ -2,6 +2,7 @@ const express = require("express")
 const mongoose = require("mongoose")
 // const {connectSQLdb} = require("./database/mySQLdb")
 const connectMongodb = require("./database/mongodb")
+const messageRoute = require("./Routes&Controllers/Message/messageRoute")
 const dailyTipsRoute = require("./Routes&Controllers/Dailytips/dailyTipsRouter.js")
 const doctorRoute = require("./Authentication/Doctor/doctorRouter")
 const patientRoute = require("./Authentication/Patient/patientRouter")
@@ -40,15 +41,17 @@ app.use(session({
   app.use('/posts', postRoute)
   app.use('/dailyTips', dailyTipsRoute)
   app.use('/doctor', doctorRoute)
+  app.use('/message', messageRoute)
   app.use('/patient', patientRoute)
   app.use('/diseases', diseasesRoute) 
   app.use('/forgotpassword', forgotPasswordRoute)
+
 // connectSQLdb()
 connectMongodb()
 
 app.get("/login", (req, res)=>{
     //  res.send("welcome")
-     res.redirect("https://google.com")
+     res.redirect("https://medical-info.vercel.app/signin?type=patient")
 })
 
 require('./utils/googleAuthenticate.js')
