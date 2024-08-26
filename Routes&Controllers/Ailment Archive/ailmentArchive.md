@@ -2,10 +2,15 @@
 
 ## Routes
 1. GET '/diseases/allDiseases?page=${}&limit=6'
+   
  **This route returns all diseases(with just the DIseasename and Description Property) but paginates them by returning 6 at a time
+ 
  **Also returns the page, limit and totalDiseases avialable
+ 
  **The frontend should initialize by making a request to /allDiseases?page=1&limit=6 to get the first set of diseases.
+ 
  **When the 'see more' button is clicked, the frontend should increment the page parameter and make another request, for example, /allDiseases?page=2&limit=6, to get the next set of diseases.
+ 
  **This process continues, incrementing the page number with each 'see more' button click, to load additional diseases.
 Example-
 Request is sent to /diseases/allDiseases?page=1&limit=2
@@ -28,6 +33,7 @@ Request is sent to /diseases/allDiseases?page=1&limit=2
 ```
 
 2. GET  '/diseases/disease?name=${}'
+   
 **This route returns a single disease using a query of the Diseases name
 Example-
 Request is sent to /diseases/disease?name=Hypoglycemia
@@ -60,7 +66,9 @@ Request is sent to /diseases/disease?name=Hypoglycemia
 
 ### Private routes 
 3. POST '/diseases/addDisease'
+   
 **Adds a new Disease
+
 **The new disease is sent as a form in the format:
 ```json
 {
@@ -71,7 +79,9 @@ Request is sent to /diseases/disease?name=Hypoglycemia
 }
 ```
 4. PUT '/diseases/updateDisease'
+
 **Updates an existing Disease
+
 **The update is sent as a form in the format:
 ```json
 {
@@ -82,4 +92,5 @@ Request is sent to /diseases/disease?name=Hypoglycemia
 }
 ```
 5. DELETE '/diseases?name=${}
+   
 **Deletes a single disease based on the name query

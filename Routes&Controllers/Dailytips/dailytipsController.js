@@ -1,13 +1,11 @@
-const express = require("express")
 const request = require("request-promise")
-const router = express.Router()
 
 //Array of health tip IDs
 const numbers = [
     25, 327, 329, 350, 510, 512, 514, 527, 528, 529, 530, 531, 532, 533, 534, 536,
     537, 538, 539, 540, 541, 542, 543, 544, 546, 547, 549, 551, 552, 553,
     30530, 30531, 30532, 30533, 30534
-];
+]
 
 //Function to return 6 random healthtips
 function getRandomNumbers(array, count) {
@@ -16,9 +14,9 @@ function getRandomNumbers(array, count) {
     
     // Generate 'count' unique random indices
     while (result.length < count) {
-        const randomIndex = Math.floor(Math.random() * totalNumbers);
+        const randomIndex = Math.floor(Math.random() * totalNumbers)
         if (!result.includes(randomIndex)) {
-            result.push(randomIndex);
+            result.push(randomIndex)
         }
     }
     
@@ -31,7 +29,7 @@ const randomNumbers = getRandomNumbers(numbers, 6);
 // @route   GET /dailyTips/tips
 // @returns Object of 6 tips with ImageUrl, id and title
 // @access  Public
-router.get('/tips',async (req, res) => {
+const getRandomTips = async (req, res) => {
   try{
     const apiUrl1 = `https://health.gov/myhealthfinder/api/v3/topicsearch.json?TopicId=${randomNumbers[0]}`
     const apiUrl2 = `https://health.gov/myhealthfinder/api/v3/topicsearch.json?TopicId=${randomNumbers[1]}`
@@ -97,25 +95,24 @@ router.get('/tips',async (req, res) => {
 
     res.json(package)
   }catch(err){
-    res.status(500).json({message: `Error fetching data from API: ${err}`});
+    res.status(500).json({message: `Error fetching data from API: ${err}`})
   }
-});
+}
 
 // @desc    Get single tip
 // @route   GET /dailyTips/tip/:id
 // @returns Object of content, lastupdated, imageurl and imagealt
 // @access  Public
+const getSingleTip =  (req, res) => {
 
-router.get('/tip/:id', (req, res) => {
-
-    const apiUrl = `https://health.gov/myhealthfinder/api/v3/topicsearch.json?TopicId=${req.params.id}`;
+    const apiUrl = `https://health.gov/myhealthfinder/api/v3/topicsearch.json?TopicId=${req.params.id}`
   
     request(apiUrl, (error, response, body) => {
       if (error) {
-        res.status(500).json({message: `Error fetching data from API: ${error}`});
+        res.status(500).json({message: `Error fetching data from API: ${error}`})
       } else {
         // Parse the JSON response body and send it
-        const data = JSON.parse(body);
+        const data = JSON.parse(body)
 
         const imageAlt = data.Result.Resources.Resource[0].ImageAlt
         const imageUrl = data.Result.Resources.Resource[0].ImageUrl
@@ -132,9 +129,12 @@ router.get('/tip/:id', (req, res) => {
           mainBody
         }
         
-        res.json(package);
+        res.json(package)
       }
-    });
-  });
+    })
+  }
 
-module.exports = router   
+module.exports = {
+  getRandomTips,
+  getSingleTip
+}   

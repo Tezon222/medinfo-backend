@@ -33,6 +33,10 @@ const Doctors = new Schema({
         type: String,
         required: [true, "Please provide your valid Medical Certificate"]
     },
+    isDoctor:{
+        type: Boolean,
+        default: true
+    }
 },{
     timestamps: true
 })
