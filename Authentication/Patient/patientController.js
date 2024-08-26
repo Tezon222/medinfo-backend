@@ -53,7 +53,7 @@ const loginPatient = async(req,res) =>{
     try {
         const user = await Patient.findOne({email})
         if(!user){
-          res.status(400).json({message:"Invalid username or Password"})
+            res.status(400).json({message:"Invalid username or Password"})
         }else if(user && await bcrypt.compare(password, user.password)){
             const accessToken = await jwt.sign({user}, process.env.JWT_SECRET, {expiresIn: "7d"})
             res.status(200).json({message: `Login Successful, welcome ${user.firstName}`, accessToken})
