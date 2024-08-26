@@ -2,22 +2,26 @@ const mongoose = require("mongoose")
 const schema = mongoose.Schema
 
 const message = new schema({
-    patientSenderId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Patients"
-    },
-    patientReceiverId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Patients"
-    },
-    doctorSenderId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Doctors"
-    },
-    doctorReceiverId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Doctors"
-    },
+   senderId:{
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    refPath: "sender"
+   },
+   receiverId:{
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    refPath: "receiver"
+   },
+   sender:{
+    type: String,
+    required: true,
+    enum: ["Doctor", "Patient"]
+   },
+   receiver:{
+    type: String,
+    required: true,
+    enum: ["Doctor", "Patient"]
+   },
     message:{
         type: String,
         required: true,
