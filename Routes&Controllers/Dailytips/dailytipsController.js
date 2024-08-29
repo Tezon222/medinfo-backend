@@ -49,37 +49,37 @@ const getRandomTips = async (req, res) => {
     ]);
 
     const dataPackage1 = {
-      url: data1.Result.Resources.Resource[0].ImageUrl,
+      imageuUrl: data1.Result.Resources.Resource[0].ImageUrl,
       id: data1.Result.Resources.Resource[0].Id,
       title: data1.Result.Resources.Resource[0].Title
     }
 
     const dataPackage2 = {
-      url: data2.Result.Resources.Resource[0].ImageUrl,
+      imageuUrl: data2.Result.Resources.Resource[0].ImageUrl,
       id: data2.Result.Resources.Resource[0].Id,
       title: data2.Result.Resources.Resource[0].Title
     }
 
     const dataPackage3 = {
-      url: data3.Result.Resources.Resource[0].ImageUrl,
+      imageuUrl: data3.Result.Resources.Resource[0].ImageUrl,
       id: data3.Result.Resources.Resource[0].Id,
       title: data3.Result.Resources.Resource[0].Title
     }
 
     const dataPackage4 = {
-      url: data4.Result.Resources.Resource[0].ImageUrl,
+      imageuUrl: data4.Result.Resources.Resource[0].ImageUrl,
       id: data4.Result.Resources.Resource[0].Id,
-      title: data4.Result.Resources.Resource[0].Title
+      imageuUrl: data4.Result.Resources.Resource[0].Title
     }
 
     const dataPackage5 = {
-      url: data5.Result.Resources.Resource[0].ImageUrl,
+      imageuUrl: data5.Result.Resources.Resource[0].ImageUrl,
       id: data5.Result.Resources.Resource[0].Id,
       title: data5.Result.Resources.Resource[0].Title
     }
 
     const dataPackage6 = {
-      url: data6.Result.Resources.Resource[0].ImageUrl,
+      imageuUrl: data6.Result.Resources.Resource[0].ImageUrl,
       id: data6.Result.Resources.Resource[0].Id,
       title: data6.Result.Resources.Resource[0].Title
     }
