@@ -43,7 +43,7 @@ app.use(session({
   app.use('/doctor', doctorRoute)
   app.use('/message', messageRoute)
   app.use('/patient', patientRoute)
-  app.use('/diseases', diseases)
+  app.use('/diseases', diseasesRoute)
   app.use('/forgotpassword', forgotPasswordRoute)
 // connectSQLdb()
 connectMongodb()

@@ -4,9 +4,25 @@ const emailValidator = require('../../utils/emailValidator')
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
+// Get All Doctors
 const getDoctors = async(req,res)=>{
   const users = await Doctor.find()
   res.status(200).json({message: users})
+}
+
+// Get Single Doctor
+const getSingleDoctor = async(req,res)=>{
+  try {
+    const {id} = req.params
+    if(!id){
+      res.status(400).json({message:"Please enter an ID"})
+    }
+    const user = await Doctor.findById(id)
+    if(!user){ res.status(400).json({message: "Doctor does not exist"})}
+    res.status(200).json({message: user})
+  } catch (error) {
+    res.status(400).json({message:error})
+  }
 }
 
 // signup Doctors
@@ -42,14 +58,16 @@ const loginDoctor = async(req,res) =>{
         const user = await Doctor.findOne({email})
         if(!user){
           res.status(400).json({message:"Invalid username or Password"})
+        }else if(!user.password){
+            res.status(400).json({message: "User can only signin with Google"})
         }else if(user && await bcrypt.compare(password, user.password)){
             const accessToken = await jwt.sign({user}, process.env.JWT_SECRET, {expiresIn: "7d"})
             res.status(200).json({message: `Login Successful, welcome ${user.firstName}`, accessToken})
         }
     } catch (error) {
         console.log(error)
-        res.status(400).json({message:error})
+        res.status(400).json({message:error.Error})
     }
 }
 
-module.exports = {signupDoctor, getDoctors, loginDoctor}
+module.exports = {signupDoctor, getDoctors, getSingleDoctor, loginDoctor}
