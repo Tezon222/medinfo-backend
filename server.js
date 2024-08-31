@@ -1,5 +1,6 @@
 const express = require("express")
 const mongoose = require("mongoose")
+const cookieParser = require("cookie-parser")
 // const {connectSQLdb} = require("./database/mySQLdb")
 const connectMongodb = require("./database/mongodb")
 const messageRoute = require("./Routes&Controllers/Message/messageRoute")
@@ -25,6 +26,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   }))
+  app.use(cookieParser())
   app.use(passport.authenticate('session'))
   app.use(passport.initialize())
   passport.serializeUser(function(user, done) {
@@ -34,10 +36,6 @@ app.use(session({
   passport.deserializeUser(function(user, done) {
     done(null, user);
   });
-  
-  app.get('/session', (req,res)=>{
-    res.send(req.user)
-  })
   app.use('/posts', postRoute)
   app.use('/dailyTips', dailyTipsRoute)
   app.use('/doctor', doctorRoute)

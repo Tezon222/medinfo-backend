@@ -9,6 +9,13 @@ const Doctors = new Schema({
         type: String,
         required: [true, "Please enter your Full Name"]
     },
+    picture:{
+        type: String,
+    },
+    gender:{
+        type: String, 
+        enum: ["Male", "Female"]
+    },
     email:{
         type: String,
         required: [true, "Please enter your Email"]
@@ -33,9 +40,12 @@ const Doctors = new Schema({
         type: String,
         required: [true, "Please provide your valid Medical Certificate"]
     },
-    isDoctor:{
-        type: Boolean,
-        default: true
+    role:{
+        type: String,
+        default: "Doctor"
+    },
+    accessToken:{
+        type: String
     }
 },{
     timestamps: true

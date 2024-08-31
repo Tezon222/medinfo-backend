@@ -4,6 +4,9 @@ const Patients = new Schema({
     googleId:{
         type: String,
     },
+    picture:{
+        type: String,
+    },
     firstName:{
         type: String,
         required: [true, "Please enter your Name"]
@@ -11,6 +14,11 @@ const Patients = new Schema({
     lastName:{
         type: String,
         required: [true, "Please enter your Full Name"]
+    },
+    gender:{
+        type: String,
+        required: [true, 'Please specify gender'],
+        enum: ["Male", "Female"]
     },
     email:{
         type: String,
@@ -22,12 +30,15 @@ const Patients = new Schema({
     country:{
         type: String,
     },
-    isDoctor:{
-        type: Boolean,
-        default: false
+    role:{
+        type: String,
+        default: "Patient"
     },
     otp:{
         
+    }, 
+    accessToken:{
+        type: String
     }
 },{
     timestamps: true
