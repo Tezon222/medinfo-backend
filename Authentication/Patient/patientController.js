@@ -15,8 +15,11 @@ const getPatients = async(req,res)=>{
     const verifyAccessToken = jwt.verify(accessToken, process.env.JWT_SECRET)
     const userId = verifyAccessToken.user_id
     const user = await Patient.findById(userId).select(['-password'])
-    if(!user){ res.status(400).json({message: "User does not exist"})}
-    res.status(200).json({message: user})
+
+    if(user.role === "Admin"){
+      res.status(200).json({message: user})
+    }
+    if(!user){ res.status(400).json({message: "User is not Authorized"})}
   } catch (error) {
     res.status(400).json({message: error})
   }
@@ -52,7 +55,8 @@ const signupPatient = async(req,res)=>{
     }
     if(!user){
     const securePassword = await bcrypt.hash(password, 10)
-    const user = await Patient.create({firstName, lastName, email, password: securePassword, country, gender})
+    const avatar = `https://avatar.iran.liara.run/public/${gender === "Male" ? "boy" : "girl"}`
+    const user = await Patient.create({firstName, lastName, email, password: securePassword, country, gender, picture: avatar})
     res.status(201).json({message: "User Signup Successful", User:{name: user.firstName}} )
     }else if(user){
       res.status(400).json({message:"User already exists"})
@@ -76,9 +80,8 @@ const loginPatient = async(req,res) =>{
         const user_id = user._id
             const accessToken = await jwt.sign({user_id}, process.env.JWT_SECRET, {expiresIn: "30d"})
             sendCookies("accessToken", accessToken, res)
-            res.status(200).json({message: `Login Successful, welcome ${user.firstName}`, accessToken})
+            res.status(200).json({message: `Login Successful, welcome ${user.firstName}`})
         }
-        
     } catch (error) {
         console.log(error)
         res.status(400).json({message:error})

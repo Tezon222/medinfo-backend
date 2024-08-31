@@ -58,7 +58,7 @@ const createComment = async(req, res)=>{
         const commentAuthor = user.firstName
 
         // Check if the user is a doctor
-        if (!user.isDoctor) {
+        if (user.role !== "Doctor") {
           return res.status(403).json({ error: "Only doctors can comment." })
         }
     
