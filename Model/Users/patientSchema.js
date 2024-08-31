@@ -12,6 +12,11 @@ const Patients = new Schema({
         type: String,
         required: [true, "Please enter your Full Name"]
     },
+    gender:{
+        type: String,
+        required: [true, 'Please specify gender'],
+        enum: ["Male", "Female"]
+    },
     email:{
         type: String,
         required: [true, "Please enter your Email"]
@@ -28,6 +33,9 @@ const Patients = new Schema({
     },
     otp:{
         
+    }, 
+    accessToken:{
+        type: String
     }
 },{
     timestamps: true
