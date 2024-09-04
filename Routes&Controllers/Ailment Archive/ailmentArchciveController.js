@@ -30,9 +30,11 @@ const getAllDiseases = (req, res) => {
             // Extract only Disease and Description properties
             const simplifiedDiseases = paginatedDiseases.map(disease => ({
                 Disease: disease.Disease,
-                Description: disease.Description
+                Description: disease.Description,
+                Image: disease.Image
             }));
-
+  
+           
             // Prepare the response with pagination info
             const response = {
                 page: page,
@@ -103,7 +105,8 @@ const addDisease = (req, res) => {
                 Disease: req.body.Disease,
                 Symptoms: req.body.Symptoms,
                 Description: req.body.Description,
-                Precautions: req.body.Precautions
+                Precautions: req.body.Precautions,
+                Image: req.body.Image
             }
 
             diseases.push(newDisease)
@@ -123,7 +126,7 @@ const addDisease = (req, res) => {
     }
 }
 
-// @desc    Add a New Disease
+// @desc    Update a Disease
 // @route   PUT /diseases/updateDisease?name=${}
 // @access  Private
 const updateDisease = (req, res) => {
@@ -156,7 +159,8 @@ const updateDisease = (req, res) => {
                 Disease: req.body.Disease,
                 Symptoms: req.body.Symptoms,
                 Description: req.body.Description,
-                Precautions: req.body.Precautions
+                Precautions: req.body.Precautions,
+                Image: req.body.Image
             }
 
             // Write the updated array back to the file
