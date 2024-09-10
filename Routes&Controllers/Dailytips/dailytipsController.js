@@ -110,14 +110,14 @@ const getRandomTips = async (req, res) => {
         id: data5.Result.Resources.Resource[0].Id,
         title: data5.Result.Resources.Resource[0].Title, 
       },
-      {
+      { 
         imageUrl: data6.Result.Resources.Resource[0].ImageUrl,
         id: data6.Result.Resources.Resource[0].Id,
         title: data6.Result.Resources.Resource[0].Title, 
       }
     ]
      
-    res.json(package)
+    res.json({data: package})
   }catch(err){
     res.status(500).json({message: `Error fetching data from API: ${err}`})
   }
