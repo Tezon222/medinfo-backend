@@ -5,30 +5,43 @@ const emailValidator = require('../../utils/emailValidator')
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
-
+//GET All Patients
 const getPatients = async(req,res)=>{
   try {
-    const {accessToken} = req.cookies
-    if(!accessToken){
-      res.status(401).json({message: 'No access token'})
-    }
-    const verifyAccessToken = jwt.verify(accessToken, process.env.JWT_SECRET)
-    const userId = verifyAccessToken.user_id
-    const user = await Patient.findById(userId).select(['-password'])
+    if(process.env.ENV === "Production"){
+      const {accessToken} = req.cookies
+      if(!accessToken){
+        res.status(401).json({message: 'No access token'})
+      }
+      const verifyAccessToken = jwt.verify(accessToken, process.env.JWT_SECRET)
+      const userId = verifyAccessToken.user_id
+      const user = await Patient.findById(userId).select(['-password'])
+      const allUsers = await Patient.find().select(['-password'])
 
-    if(user.role === "Admin"){
-      res.status(200).json({message: user})
+      if(user.role === "Admin"){
+        res.status(200).json({message: allUsers})
+      }
+      if(user.role === "Patient"){
+        res.status(200).json({message: user})
+      }
+      if(!user){res.status(400).json({message: "User is not Authorized"})}
     }
-    if(!user){ res.status(400).json({message: "User is not Authorized"})}
+
+    if(process.env.ENV === "development"){
+      const users = await Patient.find().select(['-password'])
+      res.status(200).json({message: users})
+    }
   } catch (error) {
     res.status(400).json({message: error})
   }
 }
 
+//GET Single Patient
 const getSinglePatient = async(req,res)=>{
   try {
+    const {id} = req.params
     const {accessToken} = req.cookies
-    if(!accessToken){
+    if(!accessToken ){
       res.status(401).json({message: 'No access token'})
     }
     const verifyAccessToken = jwt.verify(accessToken, process.env.JWT_SECRET)

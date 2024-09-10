@@ -15,8 +15,7 @@ const paths = require("path")
 const {sendEmail} = require("./utils/sendEmail.js")
 const session = require("express-session")
 require("dotenv").config()
-
-const app = express()
+const {app, server} = require("./utils/socket.io.js")
 const port = process.env.PORT
 
 app.use(express.json())//JSON middleware
@@ -65,6 +64,6 @@ app.use((err, req, res, next) => {
     res.status(500).json({message: 'something broke', error: err});
 });
 
-app.listen(port, ()=>{
+server.listen(port, ()=>{
     console.log(`App running on port ${port}`)
 })

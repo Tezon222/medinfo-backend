@@ -4,7 +4,7 @@ const Patient = require("../Model/Users/patientSchema")
 passport.use(new GoogleStrategy({
     clientID:     process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:8000/auth/google/callback" || 'https://medinfo-backend.onrender.com/auth/google/callback',
+    callbackURL: 'https://medinfo-backend--xie7.onrender.com/auth/google/callback' || "http://localhost:8000/auth/google/callback",
     passReqToCallback   : true
   },
   async function verify(request, accessToken, refreshToken, profile, done) {
