@@ -1,5 +1,6 @@
 const express = require("express")
 const mongoose = require("mongoose")
+const cors = require("cors")
 const cookieParser = require("cookie-parser")
 // const {connectSQLdb} = require("./database/mySQLdb")
 const connectMongodb = require("./database/mongodb")
@@ -18,8 +19,10 @@ require("dotenv").config()
 const {app, server} = require("./utils/socket.io.js")
 const port = process.env.PORT
 
+
 app.use(express.json())//JSON middleware
 app.use(express.urlencoded({extended: false}))
+app.use(cors())
 app.use(session({
   secret: 'suii',
   resave: false,
