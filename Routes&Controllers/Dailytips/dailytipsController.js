@@ -23,13 +23,13 @@ function getRandomNumbers(array, count) {
     // Pick numbers corresponding to the random indices
     return result.map(index => array[index]);
 }
-const randomNumbers = getRandomNumbers(numbers, 6);
 
 // @desc    Get 6 random tips for homepage
 // @route   GET /dailyTips/tips
 // @returns Object of 6 tips with ImageUrl, id and title
 // @access  Public
 const getRandomTips = async (req, res) => {
+    const randomNumbers = getRandomNumbers(numbers, 6);
   try{
     const apiUrl1 = `https://health.gov/myhealthfinder/api/v3/topicsearch.json?TopicId=${randomNumbers[0]}`
     const apiUrl2 = `https://health.gov/myhealthfinder/api/v3/topicsearch.json?TopicId=${randomNumbers[1]}`
