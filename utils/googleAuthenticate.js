@@ -4,17 +4,18 @@ const Patient = require("../Model/Users/patientSchema")
 passport.use(new GoogleStrategy({
     clientID:     process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'https://medinfo-backend--xie7.onrender.com/auth/google/callback',
+    callbackURL: "http://localhost:8000/auth/google/callback",
     passReqToCallback   : true
   },
   async function verify(request, accessToken, refreshToken, profile, done) {
         const {id, family_name, email, given_name, picture } = profile
         const existingUser = await Patient.findOne({googleId: id})
         const existingUseremail = await Patient.findOne({email})
+        console.log(profile, accessToken, request)
         if(existingUser || existingUseremail){
          return  done(null, existingUseremail)
         } else{
-          const user = await Patient.create({firstName: family_name, googleId: id, email, picture, lastName: given_name, verified: true })
+          const user = await Patient.create({firstName: family_name, googleId: id, email, picture, lastName: given_name, verified: true, gender: 'Male' })
           return done(null, user)
         }
   }
