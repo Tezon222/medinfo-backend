@@ -59,7 +59,7 @@ app.get('/auth/google/callback',
 passport.authenticate('google', {
     failureRedirect: '/login'
   }), (req,res)=>{
-    res.redirect(`https://medical-info.vercel.app/?id=${req.user._id}`)
+    res.redirect(`https://medical-info.vercel.app/patient`)
   })
 //catch errors middleware
 app.use((err, req, res, next) => {
