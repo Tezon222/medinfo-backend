@@ -52,9 +52,14 @@ app.get("/login", (req, res)=>{
     //  res.send("welcome")
      res.redirect("https://medical-info.vercel.app/signin?type=patient")
 })
+app.get("/", (req,res)=>{
+  res.send("Medinfo Server")
+})
 
 require('./utils/googleAuthenticate.js')
-app.get('/auth/google',passport.authenticate('google', { scope:[ 'email', 'profile' ] }));
+app.get('/auth/google',passport.authenticate('google', { scope:[ 'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/user.gender.read' ] }));
 app.get('/auth/google/callback', 
 passport.authenticate('google', {
     failureRedirect: '/login'
