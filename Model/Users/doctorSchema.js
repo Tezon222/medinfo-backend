@@ -21,7 +21,7 @@ const Doctors = new Schema({
         required: [true, "Please enter your Email"]
     },
     password:{
-        type: String,
+        type: String,  
         required: [true, "Please enter your Password"]
     },
     country:{
@@ -35,14 +35,14 @@ const Doctors = new Schema({
     specialty:{
         type: String,
         required: [true, "Please enter your Specialty"]
-    },
-    medicalCert:{
+    }, 
+    medicalCert:{ 
         type: String,
         required: [true, "Please provide your valid Medical Certificate"]
     },
     role:{
         type: String,
-        default: "Doctor"
+        default: "Doctor" 
     },
     accessToken:{
         type: String

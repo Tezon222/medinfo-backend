@@ -10,6 +10,7 @@ const doctorRoute = require("./Authentication/Doctor/doctorRouter")
 const patientRoute = require("./Authentication/Patient/patientRouter")
 const postRoute =  require("./Routes&Controllers/Messageboard/messageBoardRoute.js")
 const diseasesRoute = require("./Routes&Controllers/Ailment Archive/ailmentArchiveRouter.js")
+const appointmentRoute = require("./Routes&Controllers/Appointments/appointmentRouter.js")
 const forgotPasswordRoute = require("./Authentication/ForgotPassword")
 const passport = require("passport")
 const paths = require("path")
@@ -27,24 +28,26 @@ app.use(session({
   secret: 'suii',
   resave: false,
   saveUninitialized: true,
-  }))
-  app.use(cookieParser())
-  app.use(passport.authenticate('session'))
-  app.use(passport.initialize())
-  passport.serializeUser(function(user, done) {
-    done(null, user);
-  });
-  
-  passport.deserializeUser(function(user, done) {
-    done(null, user);
-  });
-  app.use('/posts', postRoute)
-  app.use('/dailyTips', dailyTipsRoute)
-  app.use('/doctor', doctorRoute)
-  app.use('/message', messageRoute)
-  app.use('/patient', patientRoute)
-  app.use('/diseases', diseasesRoute)
-  app.use('/forgotpassword', forgotPasswordRoute)
+}))
+app.use(cookieParser())
+app.use(passport.authenticate('session'))
+app.use(passport.initialize())
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+app.use('/posts', postRoute)
+app.use('/dailyTips', dailyTipsRoute)
+app.use('/doctor', doctorRoute)
+app.use('/message', messageRoute)
+app.use('/patient', patientRoute)
+app.use('/diseases', diseasesRoute)
+app.use('/forgotpassword', forgotPasswordRoute)
+app.use('/bookAppointment', appointmentRoute)
+
 // connectSQLdb()
 connectMongodb()
 

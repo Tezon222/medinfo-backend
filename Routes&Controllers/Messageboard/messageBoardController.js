@@ -1,4 +1,4 @@
-const postModel = require("../../Model/postsModel")
+const postModel = require("../../Model/MessageBoard/postsModel")
 const patientModel = require("../../Model/Users/patientSchema")
 const doctorModel = require("../../Model/Users/doctorSchema")
 
