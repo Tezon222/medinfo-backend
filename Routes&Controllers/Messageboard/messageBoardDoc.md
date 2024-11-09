@@ -44,7 +44,7 @@
       }
    ```
   
-3. '/posts/:postId/:userId' (GET)
+2. '/posts/:postId/:userId' (GET)
 
    This route returns a single post with its properties
 
