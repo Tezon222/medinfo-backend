@@ -44,6 +44,10 @@ const Doctors = new Schema({
         type: String,
         default: "Doctor" 
     },
+    haveAppointment:{
+        type: Boolean,
+        default: false
+    },
     accessToken:{
         type: String
     }
