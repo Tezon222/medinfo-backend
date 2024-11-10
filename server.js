@@ -1,9 +1,8 @@
 const express = require("express")
-const mongoose = require("mongoose")
 const cors = require("cors")
 const cookieParser = require("cookie-parser")
-// const {connectSQLdb} = require("./database/mySQLdb")
 const connectMongodb = require("./database/mongodb")
+// const {connectSQLdb} = require("./database/mySQLdb")
 const messageRoute = require("./Routes&Controllers/Message/messageRoute")
 const dailyTipsRoute = require("./Routes&Controllers/Dailytips/dailyTipsRouter.js")
 const doctorRoute = require("./Authentication/Doctor/doctorRouter")
@@ -12,14 +11,15 @@ const postRoute =  require("./Routes&Controllers/Messageboard/messageBoardRoute.
 const diseasesRoute = require("./Routes&Controllers/Ailment Archive/ailmentArchiveRouter.js")
 const appointmentRoute = require("./Routes&Controllers/Appointments/appointmentRouter.js")
 const forgotPasswordRoute = require("./Authentication/ForgotPassword")
+const session = require("express-session")
 const passport = require("passport")
 const paths = require("path")
 const {sendEmail} = require("./utils/sendEmail.js")
-const session = require("express-session")
-require("dotenv").config()
 const {app, server} = require("./utils/socket.io.js")
-const port = process.env.PORT
 
+require("dotenv").config()
+
+const port = process.env.PORT
 
 app.use(express.json())//JSON middleware
 app.use(express.urlencoded({extended: false}))
@@ -34,11 +34,12 @@ app.use(passport.authenticate('session'))
 app.use(passport.initialize())
 passport.serializeUser(function(user, done) {
   done(null, user);
-});
+})
 
 passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
+  done(null, user)
+})
+
 app.use('/posts', postRoute)
 app.use('/dailyTips', dailyTipsRoute)
 app.use('/doctor', doctorRoute)
@@ -64,6 +65,7 @@ passport.authenticate('google', {
   }), (req,res)=>{
     res.redirect(`https://medical-info.vercel.app/?id=${req.user._id}`)
   })
+  
 //catch errors middleware
 app.use((err, req, res, next) => {
     console.log(err);

@@ -82,7 +82,7 @@ const signupPatient = async(req,res)=>{
 
 // Login patients
 const loginPatient = async(req,res) =>{
-    const {email, password} = req.body
+    const {email, password} = req.body 
     try {
         const user = await Patient.findOne({email})
         if(!user){

@@ -31,8 +31,12 @@ const Patients = new Schema({
         type: String,
     },
     role:{
-        type: String,
+        type: String, 
         default: "Patient"
+    },
+    haveAppointment:{
+        type: Boolean,
+        default: false
     },
     otp:{
         
