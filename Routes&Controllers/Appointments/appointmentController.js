@@ -55,7 +55,10 @@ const bookAppointment = async (req, res) =>{
     const doctor = await doctorModel.findById(doctorId)
 
     patient.haveAppointment = true
+    patient.appointments = appointment._id
+   
     doctor.haveAppointment = true
+    doctor.appointments = appointment._id
 
     await patient.save()
     await doctor.save()
@@ -64,6 +67,29 @@ const bookAppointment = async (req, res) =>{
  
     res.status(201).json({message: "Appointment successfully booked", appointment})
 }
+
+const getPatientsAppointments = async (req, res)=>{
+    //patientID Collection
+    const token = req.cookies.accessToken
+    const decoded = jwt.verify(token, process.env.JWT_SECRET) 
+    const patientId = decoded.user_id
+
+    const patient = await patientModel.findById(patientId).populate("appointments")
+
+    res.status(200).json(patient)
+}
+
+const getDoctorsAppointments = async (req, res)=>{
+    //patientID Collection
+    const token = req.cookies.accessToken
+    const decoded = jwt.verify(token, process.env.JWT_SECRET) 
+    const doctorId = decoded.user_id
+
+    const doctor = await doctorModel.findById(doctorId).populate("appointments")
+
+    res.status(200).json(doctor)
+}
+
 
 //make sure to clear db
     const test = async (req, res) => {
@@ -74,4 +100,4 @@ const bookAppointment = async (req, res) =>{
 // const appointment = await appointmentModel.findById("672fd3fb49bd9c979f5dee70").populate("patient").populate("doctor")
 // res.send(appointment.patient.firstName)}
 
-module.exports = {matchDoctor, declineDoctor, bookAppointment, test}
+module.exports = {matchDoctor, declineDoctor, bookAppointment, getPatientsAppointments, getDoctorsAppointments, test}

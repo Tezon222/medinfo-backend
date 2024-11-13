@@ -48,6 +48,12 @@ const Doctors = new Schema({
         type: Boolean,
         default: false
     },
+    appointments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Appointments'
+        }
+    ],
     accessToken:{
         type: String
     }
