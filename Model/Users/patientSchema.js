@@ -38,6 +38,12 @@ const Patients = new Schema({
         type: Boolean,
         default: false
     },
+    appointments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Appointments'
+        }
+    ],
     otp:{
         
     }, 

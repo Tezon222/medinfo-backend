@@ -51,8 +51,7 @@ A doctor is returned, eg.
 -   This route books the appointment once the payment has been made
 -   It uses the doctor ID from the Params to create a reference to the doctor in the appointments database collection
 -   The frontend should send the doctor id as a param to this route. It will be available from the doctor object returned from /bookAppointment
--   It returns an appointment object with ids of the patient and doctor with the appointment. 
-A doctor is returned, eg.
+-   It returns an appointment object with ids of the patient and doctor with the appointment. eg.
 ```json
 {
   "message": "Appointment successfully booked",
