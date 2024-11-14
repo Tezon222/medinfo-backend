@@ -31,7 +31,7 @@ const sendMessage = async(req, res) =>{
 } 
 
 const getConversation = async(req, res) =>{
-    const {senderId,receiverId} = req.query
+    const {senderId,receiverId} = req.params
     if(!senderId || !receiverId){
         res.status(400).json({message: "Invalid request"})
     }

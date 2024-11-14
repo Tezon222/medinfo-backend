@@ -1,7 +1,7 @@
 const passport = require("passport")
 const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 const Patient = require("../Model/Users/patientSchema")
-const { callApi } = require("@zayne-labs/callapi")
+const { callApi } = require("@zayne-labs/callapi/legacy")
 
 passport.use(new GoogleStrategy({
     clientID:     process.env.GOOGLE_CLIENT_ID,
@@ -17,17 +17,14 @@ passport.use(new GoogleStrategy({
          return  done(null, existingUseremail)
         } else{
           const { data, error } = await callApi("https://people.googleapis.com/v1/people/me", {
-            method: "GET",
-            auth:{
-              bearer:accessToken
-            },
+            auth:accessToken,
             query:{
               key: process.env.GOOGLE_AUTH_APIKEY,
               personFields: "genders,birthdays"
             }
           })
           if(error == null){
-            const gender = data?.genders[0].formattedValue
+            const gender = data.genders[0].formattedValue
             const user = await Patient.create({firstName: family_name, googleId: id, email, picture, lastName: given_name, verified: true,gender })
             return done(null, user)
           }else{
