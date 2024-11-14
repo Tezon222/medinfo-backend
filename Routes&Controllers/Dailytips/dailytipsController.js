@@ -23,13 +23,13 @@ function getRandomNumbers(array, count) {
     // Pick numbers corresponding to the random indices
     return result.map(index => array[index]);
 }
-const randomNumbers = getRandomNumbers(numbers, 6);
 
 // @desc    Get 6 random tips for homepage
 // @route   GET /dailyTips/tips
 // @returns Object of 6 tips with ImageUrl, id and title
 // @access  Public
 const getRandomTips = async (req, res) => {
+    const randomNumbers = getRandomNumbers(numbers, 6);
   try{
     const apiUrl1 = `https://health.gov/myhealthfinder/api/v3/topicsearch.json?TopicId=${randomNumbers[0]}`
     const apiUrl2 = `https://health.gov/myhealthfinder/api/v3/topicsearch.json?TopicId=${randomNumbers[1]}`
@@ -138,6 +138,7 @@ const getSingleTip =  (req, res) => {
         // Parse the JSON response body and send it
         const data = JSON.parse(body)
 
+        const mainTitle =  data.Result.Resources.Resource[0].Title
         const imageAlt = data.Result.Resources.Resource[0].ImageAlt
         const imageUrl = data.Result.Resources.Resource[0].ImageUrl
         const lastUpdatedDate = new Date(parseInt(data.Result.Resources.Resource[0].LastUpdate)).toLocaleDateString()
@@ -147,6 +148,7 @@ const getSingleTip =  (req, res) => {
         // const relatedItems = data.Result.Resources.Resource[0].RelatedItems.RelatedItem
 
         const package = {
+          mainTitle,
           imageAlt,
           imageUrl,
           lastUpdated,

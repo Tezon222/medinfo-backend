@@ -31,9 +31,19 @@ const Patients = new Schema({
         type: String,
     },
     role:{
-        type: String,
+        type: String, 
         default: "Patient"
     },
+    haveAppointment:{
+        type: Boolean,
+        default: false
+    },
+    appointments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Appointments'
+        }
+    ],
     otp:{
         
     }, 
