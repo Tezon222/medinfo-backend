@@ -28,10 +28,6 @@ const Doctors = new Schema({
         type: String,
         required: [true, "Please enter your country"]
     },
-    address:{
-        type: String,
-        required: [true, "Please enter your Address"]
-    },
     specialty:{
         type: String,
         required: [true, "Please enter your Specialty"]
