@@ -4,7 +4,7 @@ const emailValidator = require('../../utils/emailValidator')
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const { sendCookies } = require("../../utils/cookies")
-
+const cloudinary = require("../../utils/cloudinary")
 // Get All Doctors
 const getDoctors = async(req,res)=>{
   const users = await Doctor.find()
@@ -28,9 +28,9 @@ const getSingleDoctor = async(req,res)=>{
 
 // signup Doctors
 const signupDoctor = async(req,res)=>{
-        const {firstName, lastName, email, password, country, address, specialty, medicalCert, gender} = req.body
+        const {firstName, lastName, email, password, country, address, specialty, gender} = req.body
         try {  
-            if(!firstName || !lastName || !email || !password || !country || !address || !specialty || !medicalCert || !gender){
+            if(!firstName || !lastName || !email || !password || !country || !address || !specialty || !gender){
                 res.status(400).json({message: "Please fill all fields"})  
             } 
     const user =await Doctor.findOne({email});
@@ -41,8 +41,13 @@ const signupDoctor = async(req,res)=>{
     if(!user){
     const securePassword = await bcrypt.hash(password, 10)
     const avatar = `https://avatar.iran.liara.run/public/${gender === "Male" ? "boy" : "girl"}`
-    const user = await Doctor.create({firstName, lastName, email, password: securePassword, country, address, specialty, medicalCert, gender, picture: avatar})
-    res.status(201).json({message: "Doctor Signup Successful", User:{name: user.firstName}} )
+    cloudinary.uploader.upload(req.file.path,{folder:"Event Featured images"}, async(err, result)=>{
+      if(err){
+        res.status(400).json({message:err})
+      }
+      await Doctor.create({firstName, lastName, email, password: securePassword, country, address, specialty, medicalCert: result.secure_url, gender, picture: avatar})
+      res.status(201).json({message: "Doctor Signup Successful", User:{name: firstName}} )
+    })    
     }else if(user){
       res.status(400).json({message:"Doctor already exists"})
     }
