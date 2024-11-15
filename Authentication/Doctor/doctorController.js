@@ -29,9 +29,9 @@ const getSingleDoctor = async(req,res)=>{
 
 // signup Doctors
 const signupDoctor = async(req,res)=>{
-        const {firstName, lastName, email, password, country, address, specialty, gender} = req.body
+        const {firstName, lastName, email, password, country, specialty, gender} = req.body
         try {  
-            if(!firstName || !lastName || !email || !password || !country || !address || !specialty || !gender){
+            if(!firstName || !lastName || !email || !password || !country || !specialty || !gender){
                 res.status(400).json({message: "Please fill all fields"})  
             } 
     const user =await Doctor.findOne({email});
@@ -46,7 +46,7 @@ const signupDoctor = async(req,res)=>{
       if(err){
         res.status(400).json({message:err})
       }
-      await Doctor.create({firstName, lastName, email, password: securePassword, country, address, specialty, medicalCert: result.secure_url, gender, picture: avatar})
+      await Doctor.create({firstName, lastName, email, password: securePassword, country, specialty, medicalCert: result.secure_url, gender, picture: avatar})
       res.status(201).json({message: "Doctor Signup Successful", User:{name: firstName}} )
     })    
     }else if(user){
