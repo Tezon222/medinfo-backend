@@ -23,7 +23,10 @@ const port = process.env.PORT
 
 app.use(express.json())//JSON middleware
 app.use(express.urlencoded({extended: false}))
-app.use(cors())
+app.use(cors({
+  origin: ["http://localhost:8000", "http://localhost:3000", "https://medical-info.vercel.app"],
+  credentials: true,
+}))
 app.use(session({
   secret: 'suii',
   resave: false,
