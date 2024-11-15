@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const { sendCookies } = require("../../utils/cookies")
 const cloudinary = require("../../utils/cloudinary")
+
 // Get All Doctors
 const getDoctors = async(req,res)=>{
   const users = await Doctor.find()
@@ -59,7 +60,6 @@ const signupDoctor = async(req,res)=>{
 
 // Login Doctors
 const loginDoctor = async(req,res) =>{
-    // res.status(200).json({message: "login Doctors"})
     const {email, password} = req.body
     try {
         const user = await Doctor.findOne({email})
@@ -70,6 +70,8 @@ const loginDoctor = async(req,res) =>{
           const accessToken = await jwt.sign({user_id}, process.env.JWT_SECRET, {expiresIn: "30d"})
           sendCookies("accessToken", accessToken, res)
           res.status(200).json({message: `Login Successful, welcome ${user.firstName}`})
+        }else{
+          res.status(200).json({message: "Invalid username or password"})
         }
     } catch (error) {
         console.log(error)

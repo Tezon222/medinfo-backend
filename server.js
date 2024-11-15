@@ -16,6 +16,7 @@ const passport = require("passport")
 const paths = require("path")
 const {sendEmail} = require("./utils/sendEmail.js")
 const {app, server} = require("./utils/socket.io.js")
+const sessionRoute = require('./Authentication/session.js')
 
 require("dotenv").config()
 
@@ -42,7 +43,7 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   done(null, user)
 })
-
+app.use("/session", sessionRoute)
 app.use('/posts', postRoute)
 app.use('/dailyTips', dailyTipsRoute)
 app.use('/doctor', doctorRoute)
