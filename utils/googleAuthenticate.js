@@ -24,8 +24,9 @@ passport.use(new GoogleStrategy({
             }
           })
           if(error == null){
+            console.log(data)
             const gender = data.genders[0].formattedValue
-            const user = await Patient.create({firstName: family_name, googleId: id, email, picture, lastName: given_name, verified: true,gender })
+            const user = await Patient.create({firstName: family_name, googleId: id, email, picture, lastName: given_name, verified: true,gender, birthday})
             return done(null, user)
           }else{
             return done(error, null)

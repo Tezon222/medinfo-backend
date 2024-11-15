@@ -63,7 +63,8 @@ app.get("/", (req,res)=>{
 require('./utils/googleAuthenticate.js')
 app.get('/auth/google',passport.authenticate('google', { scope:[ 'https://www.googleapis.com/auth/userinfo.email',
             'https://www.googleapis.com/auth/userinfo.profile',
-            'https://www.googleapis.com/auth/user.gender.read' ] }));
+            'https://www.googleapis.com/auth/user.gender.read',
+            "https://www.googleapis.com/auth/user.birthday.read" ] }));
 app.get('/auth/google/callback', 
 passport.authenticate('google', {
     failureRedirect: '/login'
