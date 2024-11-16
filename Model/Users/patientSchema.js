@@ -26,7 +26,6 @@ const Patients = new Schema({
     },
     password:{
         type: String,
-        required: [true, "Please enter your Password"]
     },
     dob:{
         type: String,
