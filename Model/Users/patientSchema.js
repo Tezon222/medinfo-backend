@@ -49,7 +49,7 @@ const Patients = new Schema({
         }
     ],
     otp:{
-        
+        type: String,
     }, 
     accessToken:{
         type: String
