@@ -71,7 +71,7 @@ const loginDoctor = async(req,res) =>{
           sendCookies("accessToken", accessToken, res)
           res.status(200).json({message: `Login Successful, welcome ${user.firstName}`})
         }else{
-          res.status(200).json({message: "Invalid username or password"})
+          res.status(400).json({message: "Invalid username or password"})
         }
     } catch (error) {
         console.log(error)
