@@ -57,23 +57,20 @@ const getSinglePatient = async(req,res)=>{
 // signup Patients
 const signupPatient = async(req,res)=>{
     const {firstName, lastName, email, password, country, gender, dob} = req.body
-      try {  
-          if(!firstName || !lastName || !email || !password || !country || !gender || !dob){
-                res.status(400).json({message: "Please fill all fields"})  
-            } 
+    if(Object.keys(req.body).length < 7 && Object.values(req.body) > 7){
+          res.status(400).json({message: "Please fill all fields"}) ;
+     } 
     const user =await Patient.findOne({email});
-    if(!user){
+    if(user){
+      res.status(400).json({message:"User already exists"})
+    }
+    else if(!user){
     const securePassword = await bcrypt.hash(password, 10)
     const avatar = `https://avatar.iran.liara.run/public/${gender === "Male" ? "boy" : "girl"}`
     const user = await Patient.create({firstName, lastName, email, password: securePassword, country, gender, dob, picture: avatar})
     res.status(201).json({message: "User Signup Successful", User:{name: user.firstName}} )
-    }else if(user){
-      res.status(400).json({message:"User already exists"})
     }
-        } catch (error) {
-            console.log(error)
-            res.status(400).json({message:error})
-        }
+       
 }
 
 // Login patients

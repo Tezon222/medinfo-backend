@@ -17,12 +17,14 @@ const paths = require("path")
 const {sendEmail} = require("./utils/sendEmail.js")
 const {app, server} = require("./utils/socket.io.js")
 const sessionRoute = require('./Authentication/session.js')
+const formData = require('express-form-data');
 
 require("dotenv").config()
 
 const port = process.env.PORT
 
 app.use(express.json())//JSON middleware
+app.use(formData.parse());
 app.use(express.urlencoded({extended: false}))
 app.use(cors({
   origin: ["http://localhost:8000", "http://localhost:3000", "https://medical-info.vercel.app"],

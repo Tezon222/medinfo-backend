@@ -9,11 +9,11 @@ const Patients = new Schema({
     },
     firstName:{
         type: String,
-        required: [true, "Please enter your Name"]
+        required: [true, "Please enter your Firstname"]
     },
     lastName:{
         type: String,
-        required: [true, "Please enter your Full Name"]
+        required: [true, "Please enter your Lastname"]
     },
     gender:{
         type: String,
