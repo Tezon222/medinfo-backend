@@ -89,13 +89,13 @@ const loginPatient = async(req,res) =>{
             res.status(400).json({message:"Invalid username or Password"})
         }else if(!user.password){
           res.status(400).json({message: "User can only signin with Google"})
-      }else if(user && await bcrypt.compare(password, user.password)){
+      }else if(await bcrypt.compare(password, user.password)){
         const user_id = user._id
             const accessToken = await jwt.sign({user_id}, process.env.JWT_SECRET, {expiresIn: "30d"})
             sendCookies("accessToken", accessToken, res)
             res.status(200).json({message: `Login Successful, welcome ${user.firstName}`})
         }else{
-          res.status(200).json({message: "Invalid username or password"})
+          res.status(400).json({message: "Invalid username or password"})
         }
     } catch (error) {
         console.log(error)
