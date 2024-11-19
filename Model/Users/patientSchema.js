@@ -37,6 +37,12 @@ const Patients = new Schema({
         type: String, 
         default: "Patient"
     },
+    logins: [
+        {
+          month: { type: String }, // e.g., '2024-11'
+          count: { type: Number, default: 0 }
+        }
+    ],
     haveAppointment:{
         type: Boolean,
         default: false
