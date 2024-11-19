@@ -2,6 +2,7 @@
 const Patient = require("../../Model/Users/patientSchema")
 const { sendCookies } = require("../../utils/cookies")
 const emailValidator = require('../../utils/emailValidator')
+const moment = require('moment');
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
@@ -86,6 +87,21 @@ const loginPatient = async(req,res) =>{
         const user_id = user._id
             const accessToken = await jwt.sign({user_id}, process.env.JWT_SECRET, {expiresIn: "30d"})
             sendCookies("accessToken", accessToken, res)
+
+            const currentMonth = moment().format('YYYY-MM')
+            const loginRecord = user.logins.find((record) => record.month === currentMonth)
+
+            if (loginRecord) {
+              // Increment the login count for the current month
+              loginRecord.count += 1
+            } else {
+              // Add a new record for the current month
+              user.logins.push({ month: currentMonth, count: 1 })
+            }
+         
+            // Save the updated user document
+            await user.save()
+
             res.status(200).json({message: `Login Successful, welcome ${user.firstName}`})
         }else{
           res.status(400).json({message: "Invalid username or password"})
