@@ -78,7 +78,7 @@ const loginPatient = async(req,res) =>{
     const {email, password} = req.body 
     try {
         const user = await Patient.findOne({email})
-        if(!user && await bcrypt.compare(password, user.password)){
+        if(!user){
             res.status(400).json({message:"Invalid username or Password"})
         }else if(!user.password){
           res.status(400).json({message: "User can only signin with Google"})

@@ -2,7 +2,6 @@ const express = require("express")
 const cors = require("cors")
 const cookieParser = require("cookie-parser")
 const connectMongodb = require("./database/mongodb")
-// const {connectSQLdb} = require("./database/mySQLdb")
 const messageRoute = require("./Routes&Controllers/Message/messageRoute")
 const dailyTipsRoute = require("./Routes&Controllers/Dailytips/dailyTipsRouter.js")
 const doctorRoute = require("./Authentication/Doctor/doctorRouter")
@@ -17,15 +16,13 @@ const paths = require("path")
 const {sendEmail} = require("./utils/sendEmail.js")
 const {app, server} = require("./utils/socket.io.js")
 const sessionRoute = require('./Authentication/session.js')
-const formData = require('express-form-data');
 
 require("dotenv").config()
 
 const port = process.env.PORT
 
 app.use(express.json())//JSON middleware
-app.use(formData.parse());
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({extended: true}))
 app.use(cors({
   origin: ["http://localhost:8000", "http://localhost:3000", "https://medical-info.vercel.app"],
   credentials: true,

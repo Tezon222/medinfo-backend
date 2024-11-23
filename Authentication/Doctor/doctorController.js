@@ -31,7 +31,7 @@ const getSingleDoctor = async(req,res)=>{
 const signupDoctor = async(req,res)=>{
         const {firstName, lastName, email, password, country, specialty, gender} = req.body
         try {  
-            if(!firstName || !lastName || !email || !password || !country || !specialty || !gender){
+            if(!firstName || !lastName || !email || !password || !country || !specialty || !gender || !path){
                 res.status(400).json({message: "Please fill all fields"})  
             } 
     const user =await Doctor.findOne({email});
@@ -44,10 +44,11 @@ const signupDoctor = async(req,res)=>{
     const avatar = `https://avatar.iran.liara.run/public/${gender === "Male" ? "boy" : "girl"}`
     cloudinary.uploader.upload(req.file.path,{folder:"Event Featured images"}, async(err, result)=>{
       if(err){
-        res.status(400).json({message:err})
+        res.status(400).json({message: "Please upload a valid file"})
+      }if(result){
+        await Doctor.create({firstName, lastName, email, password: securePassword, country, specialty, medicalCert: result.secure_url, gender, picture: avatar})
+        res.status(201).json({message: "Doctor Signup Successful", User:{name: firstName}} )
       }
-      await Doctor.create({firstName, lastName, email, password: securePassword, country, specialty, medicalCert: result.secure_url, gender, picture: avatar})
-      res.status(201).json({message: "Doctor Signup Successful", User:{name: firstName}} )
     })    
     }else if(user){
       res.status(400).json({message:"Doctor already exists"})
