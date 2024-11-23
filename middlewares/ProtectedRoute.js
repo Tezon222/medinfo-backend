@@ -12,7 +12,7 @@ const ProtectedRoute = async(req, res, next) => {
         const userId = decoded.user_id;
         
         if (!userId) {
-            res.status(401).json({ message: 'Invalid access token' , decoded});
+            res.status(401).json({ message: 'Invalid access token'});
             return;
         }
         const patient = await Patient.findById(userId).select(['-password']);
