@@ -31,7 +31,7 @@ const getSingleDoctor = async(req,res)=>{
 const signupDoctor = async(req,res)=>{
         const {firstName, lastName, email, password, country, specialty, gender} = req.body
         try {  
-            if(!firstName || !lastName || !email || !password || !country || !specialty || !gender || !path){
+            if(!firstName || !lastName || !email || !password || !country || !specialty || !gender){
                 res.status(400).json({message: "Please fill all fields"})  
             } 
     const user =await Doctor.findOne({email});
