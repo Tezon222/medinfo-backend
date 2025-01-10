@@ -1,9 +1,8 @@
-const express = require('express')
+import express from 'express'
 const app = express()
-const {Server} = require("socket.io")
-const {createServer} = require("http")
+import {Server} from "socket.io"
+import {createServer} from "http"
 const server = createServer(app)
-
 
 const io = new Server(server, {
     cors:{
@@ -28,4 +27,4 @@ io.on("connection", (socket) => {
     })
 })
 
-module.exports = {server, app}
+export {server, app}

@@ -1,19 +1,19 @@
-// const {db} = require("../../database/mySQLdb")
-const Doctor = require("../../Model/Users/doctorSchema")
-const emailValidator = require('../../utils/emailValidator')
-const bcrypt = require("bcryptjs")
-const jwt = require("jsonwebtoken")
-const { sendCookies } = require("../../utils/cookies")
-const cloudinary = require("../../utils/cloudinary")
+// const {db} from("../../database/mySQLdb")
+import Doctor from "../../Model/Users/doctorSchema.js"
+import emailValidator from '../../utils/emailValidator.js'
+import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
+import  sendCookies from "../../utils/cookies.js"
+import {cloudinary} from "../../utils/cloudinary.js"
 
 // Get All Doctors
-const getDoctors = async(req,res)=>{
+export const getDoctors = async(req,res)=>{
   const users = await Doctor.find()
   res.status(200).json({message: users})
 }
 
 // Get Single Doctor
-const getSingleDoctor = async(req,res)=>{
+export const getSingleDoctor = async(req,res)=>{
   try {
     const {id} = req.params
     if(!id){
@@ -28,7 +28,7 @@ const getSingleDoctor = async(req,res)=>{
 }
 
 // signup Doctors
-const signupDoctor = async(req,res)=>{
+export const signupDoctor = async(req,res)=>{
         const {firstName, lastName, email, password, country, specialty, gender} = req.body
         try {  
             if(!firstName || !lastName || !email || !password || !country || !specialty || !gender){
@@ -60,7 +60,7 @@ const signupDoctor = async(req,res)=>{
 }
 
 // Login Doctors
-const loginDoctor = async(req,res) =>{
+export const loginDoctor = async(req,res) =>{
     const {email, password} = req.body
     try {
         const user = await Doctor.findOne({email})
@@ -80,4 +80,3 @@ const loginDoctor = async(req,res) =>{
     }
 }
 
-module.exports = {signupDoctor, getDoctors, getSingleDoctor, loginDoctor}

@@ -23,4 +23,4 @@ const sendCookies = (name, value, res) => {
 }
 
 
-module.exports = {sendCookies}
+export default sendCookies 

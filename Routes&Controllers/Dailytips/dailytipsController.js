@@ -1,4 +1,4 @@
-const request = require("request-promise")
+import request from "request-promise"
 
 //Array of health tip IDs
 const numbers = [
@@ -28,7 +28,7 @@ function getRandomNumbers(array, count) {
 // @route   GET /dailyTips/tips
 // @returns Object of 6 tips with ImageUrl, id and title
 // @access  Public
-const getRandomTips = async (req, res) => {
+export const getRandomTips = async (req, res) => {
     const randomNumbers = getRandomNumbers(numbers, 6);
   try{
     const apiUrl1 = `https://health.gov/myhealthfinder/api/v3/topicsearch.json?TopicId=${randomNumbers[0]}`
@@ -84,7 +84,7 @@ const getRandomTips = async (req, res) => {
     //   title: data6.Result.Resources.Resource[0].Title
     // }
 
-    const package = [
+    const dataPackage = [
       {
         imageUrl: data1.Result.Resources.Resource[0].ImageUrl,
         id: data1.Result.Resources.Resource[0].Id,
@@ -117,7 +117,7 @@ const getRandomTips = async (req, res) => {
       }
     ]
      
-    res.json({data: package})
+    res.json({data: dataPackage})
   }catch(err){
     res.status(500).json({message: `Error fetching data from API: ${err}`})
   }
@@ -127,7 +127,7 @@ const getRandomTips = async (req, res) => {
 // @route   GET /dailyTips/tip/:id
 // @returns Object of content, lastupdated, imageurl and imagealt
 // @access  Public
-const getSingleTip =  (req, res) => {
+export const getSingleTip =  (req, res) => {
 
     const apiUrl = `https://health.gov/myhealthfinder/api/v3/topicsearch.json?TopicId=${req.params.id}`
   
@@ -147,7 +147,7 @@ const getSingleTip =  (req, res) => {
         const mainBody = data.Result.Resources.Resource[0].Sections.section
         // const relatedItems = data.Result.Resources.Resource[0].RelatedItems.RelatedItem
 
-        const package = {
+        const dataPackage = {
           mainTitle,
           imageAlt,
           imageUrl,
@@ -155,12 +155,9 @@ const getSingleTip =  (req, res) => {
           mainBody
         }
         
-        res.json(package)
+        res.json(dataPackage)
       }
     })
   }
 
-module.exports = {
-  getRandomTips,
-  getSingleTip
-}   
+

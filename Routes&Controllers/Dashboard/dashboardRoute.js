@@ -1,7 +1,7 @@
-const express = require('express')
-const {getPatientAnalytics} = require('../Dashboard/patientDashboard')
+import express from 'express'
+import {getPatientAnalytics} from '../Dashboard/patientDashboard.js'
 const router = express.Router()
  
 router.get("/analytics/patient", getPatientAnalytics)
 
-module.exports = router
+export default router

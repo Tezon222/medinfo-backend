@@ -1,24 +1,25 @@
-const express = require("express")
-const cors = require("cors")
-const cookieParser = require("cookie-parser")
-const connectMongodb = require("./database/mongodb")
-const messageRoute = require("./Routes&Controllers/Message/messageRoute")
-const dailyTipsRoute = require("./Routes&Controllers/Dailytips/dailyTipsRouter.js")
-const doctorRoute = require("./Authentication/Doctor/doctorRouter")
-const patientRoute = require("./Authentication/Patient/patientRouter")
-const postRoute =  require("./Routes&Controllers/Messageboard/messageBoardRoute.js")
-const diseasesRoute = require("./Routes&Controllers/Ailment Archive/ailmentArchiveRouter.js")
-const appointmentRoute = require("./Routes&Controllers/Appointments/appointmentRouter.js")
-const forgotPasswordRoute = require("./Authentication/ForgotPassword")
-const dashboardRoute = require("./Routes&Controllers/Dashboard/dashboardRoute.js")
-const session = require("express-session")
-const passport = require("passport")
-const paths = require("path")
-const {sendEmail} = require("./utils/sendEmail.js")
-const {app, server} = require("./utils/socket.io.js")
-const sessionRoute = require('./Authentication/session.js')
+import express from "express"
+import cors from "cors"
+import cookieParser from "cookie-parser"
+import messageRoute from "./Routes&Controllers/Message/messageRoute.js"
+import dailyTipsRoute from "./Routes&Controllers/Dailytips/dailyTipsRouter.js"
+import doctorRoute from "./Authentication/Doctor/doctorRouter.js"  
+import patientRoute from "./Authentication/Patient/patientRouter.js"
+import postRoute from "./Routes&Controllers/Messageboard/messageBoardRoute.js"
+import diseasesRoute from "./Routes&Controllers/Ailment Archive/ailmentArchiveRouter.js"
+import appointmentRoute from "./Routes&Controllers/Appointments/appointmentRouter.js"
+import forgotPasswordRoute from "./Authentication/ForgotPassword.js" 
+import dashboardRoute from "./Routes&Controllers/Dashboard/dashboardRoute.js" 
+import session from "express-session" 
+import passport from "passport"
+import paths from "path" 
+import sendEmail from "./utils/sendEmail.js"    
+import {server, app} from "./utils/socket.io.js" 
+import sessionRoute from './Authentication/session.js' 
+import connectdb from "./database/mongodb.js"
+import dotenv from 'dotenv'
 
-require("dotenv").config()
+dotenv.config()
 
 const port = process.env.PORT
 
@@ -55,9 +56,9 @@ app.use('/bookAppointment', appointmentRoute)
 app.use('/dashboard', dashboardRoute)
 
 // connectSQLdb()
-connectMongodb()
+connectdb()
 
-app.get("/login", (req, res)=>{
+app.get("/login", (req, res)=>{  
     //  res.send("welcome")
      res.redirect("https://medical-info.vercel.app/signin?type=patient")
 })
@@ -65,7 +66,7 @@ app.get("/", (req,res)=>{
   res.send("Medinfo Server")
 })
 
-require('./utils/googleAuthenticate.js')
+import './utils/googleAuthenticate.js'
 app.get('/auth/google',passport.authenticate('google', { scope:[ 'https://www.googleapis.com/auth/userinfo.email',
             'https://www.googleapis.com/auth/userinfo.profile',
             'https://www.googleapis.com/auth/user.gender.read',
@@ -86,3 +87,4 @@ app.use((err, req, res, next) => {
 server.listen(port, ()=>{
     console.log(`App running on port ${port}`)
 })
+ 

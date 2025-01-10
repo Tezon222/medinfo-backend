@@ -1,6 +1,6 @@
-const express = require('express')
+import express from 'express'
 const router = express.Router()
-const {getRandomTips, getSingleTip} = require("./dailytipsController")
+import {getRandomTips, getSingleTip} from "./dailytipsController.js"
 
 // @desc    Get 6 random tips for homepage
 // @route   GET /dailyTips/tips
@@ -14,4 +14,4 @@ router.get("/tips", getRandomTips)
 // @access  Public
 router.get("/tip/:id", getSingleTip)
 
-module.exports = router
+export default router

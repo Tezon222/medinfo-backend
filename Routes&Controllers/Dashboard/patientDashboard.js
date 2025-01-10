@@ -1,9 +1,8 @@
-const axios = require('axios');
-const patientModel = require("../../Model/Users/patientSchema")
-const jwt = require("jsonwebtoken") 
+import axios from 'axios'
+import patientModel from "../../Model/Users/patientSchema.js"
+import jwt from "jsonwebtoken"
 
-
-const getPatientAnalytics = async (req, res) => {
+export const getPatientAnalytics = async (req, res) => {
     //patientID Collection
     const token = req.cookies.accessToken
     const decoded = jwt.verify(token, process.env.JWT_SECRET) 
@@ -59,7 +58,7 @@ const getPatientAnalytics = async (req, res) => {
             { month: `Jul ${yearToSend}`, count: julCount ? julCount : 0 },
             { month: `Aug ${yearToSend}`, count: augCount ? augCount : 0},
             { month: `Sept ${yearToSend}`, count: septCount ? septCount : 0 },
-            { month: `Oct ${yearToSend}`, count: octCount ? octCount : 0 },
+            { month: `Oct ${yearToSend}`, count: octCount ? octCount : 0 }, 
             { month: `Nov ${yearToSend}`, count: novCount ? novCount : 0 },
             { month: `Dec ${yearToSend}`, count: decCount ? decCount : 0 }
           ] 
@@ -76,7 +75,4 @@ const getPatientAnalytics = async (req, res) => {
     })
 }
 
-module.exports = {
-    getPatientAnalytics
-}  
 // `Jan ${selectedYear}`

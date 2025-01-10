@@ -1,6 +1,6 @@
-const axios = require("axios")
+import axios from "axios"
 
-const ticketPayment = async(email, amount, metadata)=>{
+export const ticketPayment = async(email, amount, metadata)=>{
     const APIkey = process.env.PAYSTACK_API_KEY
     const secretKey = process.env.PAYSTACK_SECRET_KEY
     const reference = Date.now()
@@ -32,4 +32,3 @@ data: {
   }
 }
 */
-module.exports = ticketPayment

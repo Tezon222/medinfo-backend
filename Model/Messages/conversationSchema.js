@@ -1,5 +1,6 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose"
 const Schema = mongoose.Schema
+
 const conversation = new Schema({
     participants:[
         {   type: mongoose.Schema.Types.ObjectId,
@@ -19,4 +20,4 @@ const conversation = new Schema({
 },{timestamps: true})
 
 const Conversation = mongoose.model("Conversation", conversation)
-module.exports = Conversation 
+export default Conversation 

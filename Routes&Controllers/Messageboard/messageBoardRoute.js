@@ -1,8 +1,7 @@
-const express = require('express')
+import express from 'express'
 const router = express.Router()
-const { getAllPosts, getPostById, createComment, createPost } = require("./messageBoardController")
-const ProtectedRoute = require('../../middlewares/ProtectedRoute')
-
+import { getAllPosts, getPostById, createComment, createPost } from "./messageBoardController.js"
+import ProtectedRoute from '../../middlewares/ProtectedRoute.js'
 
 // @desc    Get all posts
 // @route   GET /posts/all
@@ -12,7 +11,7 @@ router.get("/all", ProtectedRoute ,getAllPosts)
 
 // @desc    Get a single post
 // @route   GET /posts/:postId/:userId
-// @returns a single post with its properties
+// @returns a single post with its properties 
 // @access  Public
 router.get('/:postId/:userId', ProtectedRoute, getPostById);
 
@@ -26,4 +25,4 @@ router.post("/new/:id",ProtectedRoute, createPost)
 // @access  Public
 router.post("/comment/:postId/:commenterId",ProtectedRoute, createComment)
 
-module.exports = router
+export default router

@@ -1,5 +1,6 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose"
 const Schema = mongoose.Schema
+
 const Doctors = new Schema({
     firstName:{
         type: String,
@@ -58,4 +59,4 @@ const Doctors = new Schema({
 })
 
 const Doctor = mongoose.model("Doctors", Doctors)
-module.exports = Doctor 
+export default Doctor 

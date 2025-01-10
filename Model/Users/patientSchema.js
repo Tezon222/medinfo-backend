@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+import  mongoose from "mongoose"
 const Schema = mongoose.Schema
 const Patients = new Schema({
     googleId:{
@@ -64,4 +64,4 @@ const Patients = new Schema({
 })
 
 const Patient = mongoose.model("Patients", Patients)
-module.exports = Patient 
+export default Patient 
