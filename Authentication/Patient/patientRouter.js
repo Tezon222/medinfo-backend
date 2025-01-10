@@ -1,7 +1,7 @@
-const express = require('express')
+import express from 'express'
+import {getPatients,getSinglePatient, signupPatient,loginPatient} from "./patientController.js"
+import multer from 'multer'
 const route = express.Router()
-const {getPatients,getSinglePatient, signupPatient,loginPatient} = require("./patientController")
-const multer = require('multer')
 
 const upload = multer()
 
@@ -16,4 +16,4 @@ route.delete("/delete/:id", (req,res)=>{
     res.send('Delete single Patient')
 })
 
-module.exports = route
+export default route

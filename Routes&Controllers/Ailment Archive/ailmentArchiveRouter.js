@@ -1,6 +1,6 @@
-const express = require('express')
+import express from 'express'
 const router = express.Router()
-const {getAllDiseases, getOneDisease, addDisease, updateDisease, deleteDisease} = require("./ailmentArchciveController")
+import {getAllDiseases, getOneDisease, addDisease, updateDisease, deleteDisease} from "./ailmentArchciveController.js"
 
 // @desc    Get All Diseases
 // @route   GET /diseases/allDiseases?page=${}&limit=6
@@ -19,13 +19,15 @@ router.get("/oneDisease", getOneDisease)
 // @route   POST /diseases/addDisease
 // @access  Private
 router.post("/addDisease", addDisease)
+
 // @desc    Add a New Disease
 // @route   PUT /diseases/updateDisease?name=${}
 // @access  Private
 router.put("/updateDisease", updateDisease)
+
 // @desc    DELETE One Disease
 // @route   DELETE /diseases?name=${}
 // @access  Private
 router.delete("/", deleteDisease)
 
-module.exports = router
+export default router

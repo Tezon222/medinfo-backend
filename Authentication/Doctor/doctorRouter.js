@@ -1,7 +1,7 @@
-const express = require('express')
+import express from 'express'
+import {getDoctors, getSingleDoctor, signupDoctor, loginDoctor} from "./doctorController.js"
+import multer from "multer"
 const route = express.Router()
-const {getDoctors, getSingleDoctor, signupDoctor, loginDoctor} = require("./doctorController")
-const multer = require("multer")
 
 const storage = multer.diskStorage({
   filename: (req,file, cb)=>{
@@ -22,4 +22,4 @@ route.delete("/delete/:id", (req,res)=>{
     res.send('Delete single doctor')
 })
 
-module.exports = route
+export default route

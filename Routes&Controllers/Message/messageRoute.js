@@ -1,9 +1,9 @@
-const express = require("express")
+import express from "express"
 const route = express.Router()
-const {sendMessage, getConversation} = require('./messageController')
-const ProtectedRoute = require("../../middlewares/ProtectedRoute")
+import {sendMessage, getConversation} from './messageController.js'
+import ProtectedRoute from "../../middlewares/ProtectedRoute.js"
 
 route.post('/send/:senderId', ProtectedRoute, sendMessage)
 route.get("/get/:senderId/:receiverId",ProtectedRoute, getConversation)
 
-module.exports = route
+export default route 

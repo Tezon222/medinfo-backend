@@ -1,11 +1,26 @@
-const appointmentModel = require("../../Model/Appointments/appointmentModel")
-const doctorModel = require("../../Model/Users/doctorSchema")
-const patientModel = require("../../Model/Users/patientSchema")
-const jwt = require("jsonwebtoken") 
+import appointmentModel from "../../Model/Appointments/appointmentModel.js"
+import doctorModel from "../../Model/Users/doctorSchema.js"
+import patientModel from "../../Model/Users/patientSchema.js"
+import { pipeline } from "@xenova/transformers"
+import jwt from "jsonwebtoken"
 
 let probableAppointment = []
 
-const matchDoctor = async (req, res) =>{
+const createPatientVector = async (reason) => {
+    const extractor = await pipeline(
+        "feature-extraction",
+        "Xenova/all-MiniLM-L6-v2"
+    )    
+
+    const response = await extractor( 
+        [reason],
+        { pooling: "mean", normalize: true }
+    )  
+
+    console.log(response, "BREAK", response.data, "BREAK", Array.from(response.data))
+}
+
+export const matchDoctor = async (req, res) =>{
     const { name, email, dob, gender, phoneNumber, reason, dateOfAppointment, medicalConditions, allergies, healthInsurance } = req.body
 
     try{
@@ -14,6 +29,7 @@ const matchDoctor = async (req, res) =>{
         } 
         
         probableAppointment.push(name, email, dob, gender, phoneNumber, reason, dateOfAppointment, medicalConditions, allergies, healthInsurance)
+        createPatientVector(reason)
 
         const randomDoc =  await doctorModel.aggregate([{ $sample: { size: 1 } }])
         res.status(201).json(randomDoc)
@@ -22,12 +38,12 @@ const matchDoctor = async (req, res) =>{
     }
 }
 
-const declineDoctor = (req, res) => {
+export const declineDoctor = (req, res) => {
     probableAppointment = []
     res.status(200).redirect("/bookAppointment")
 }
  
-const bookAppointment = async (req, res) =>{ 
+export const bookAppointment = async (req, res) =>{ 
     const {doctorId} = req.params //collect doctor id from params
 
     //patientID Collection
@@ -68,7 +84,7 @@ const bookAppointment = async (req, res) =>{
     res.status(201).json({message: "Appointment successfully booked", appointment})
 }
 
-const getPatientsAppointments = async (req, res)=>{
+export const getPatientsAppointments = async (req, res)=>{
     //patientID Collection
     const token = req.cookies.accessToken
     const decoded = jwt.verify(token, process.env.JWT_SECRET) 
@@ -79,7 +95,7 @@ const getPatientsAppointments = async (req, res)=>{
     res.status(200).json(patient)
 }
 
-const getDoctorsAppointments = async (req, res)=>{
+export const getDoctorsAppointments = async (req, res)=>{
     //patientID Collection
     const token = req.cookies.accessToken
     const decoded = jwt.verify(token, process.env.JWT_SECRET) 
@@ -92,12 +108,11 @@ const getDoctorsAppointments = async (req, res)=>{
 
 
 //make sure to clear db
-    const test = async (req, res) => {
+//     const test = async (req, res) => {
 
-}
+// }
 
 // const matchDoctor = async (req, res) => {
 // const appointment = await appointmentModel.findById("672fd3fb49bd9c979f5dee70").populate("patient").populate("doctor")
 // res.send(appointment.patient.firstName)}
 
-module.exports = {matchDoctor, declineDoctor, bookAppointment, getPatientsAppointments, getDoctorsAppointments, test}

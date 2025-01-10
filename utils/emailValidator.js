@@ -10,4 +10,4 @@ const emailValidator = (email) => {
     }
 }
 
-module.exports = emailValidator
+export default emailValidator

@@ -1,5 +1,13 @@
-const path = require('path')
-const fs = require('fs')
+import path from 'path'
+import fs from 'fs'
+import { fileURLToPath } from 'url';
+
+// Get the current file path
+const __filename = fileURLToPath(import.meta.url);
+
+// Get the current directory path
+const __dirname = path.dirname(__filename);
+
 
 const diseaseFilePath = path.join(__dirname, 'medinfo.json')
 
@@ -7,7 +15,7 @@ const diseaseFilePath = path.join(__dirname, 'medinfo.json')
 // @route   GET /diseases/allDiseases?page=${}&limit=6
 // @returns Object of page, limit, total diseases and Diseases Array
 // @access  Public 
-const getAllDiseases = (req, res) => {
+export const getAllDiseases = (req, res) => {
     try {
         fs.readFile(diseaseFilePath, 'utf8', (err, data) => {
             if (err) {
@@ -54,7 +62,7 @@ const getAllDiseases = (req, res) => {
 // @route   GET /diseases/oneDisease?name=${}
 // @returns Object of specific Disease containing disease, symptom, description and precaution
 // @access  Public
-const getOneDisease = (req, res) => {
+export const getOneDisease = (req, res) => {
     try {
         fs.readFile(diseaseFilePath, 'utf8', (err, data) => {
             if (err) {
@@ -91,7 +99,7 @@ const getOneDisease = (req, res) => {
 // @desc    Add a New Disease
 // @route   POST /diseases/addDisease
 // @access  Private
-const addDisease = (req, res) => {
+export const addDisease = (req, res) => {
     try {
         fs.readFile(diseaseFilePath, 'utf8', (err, data) => {
             if (err) {
@@ -129,7 +137,7 @@ const addDisease = (req, res) => {
 // @desc    Update a Disease
 // @route   PUT /diseases/updateDisease?name=${}
 // @access  Private
-const updateDisease = (req, res) => {
+export const updateDisease = (req, res) => {
     try {
         fs.readFile(diseaseFilePath, 'utf8', (err, data) => {
             if (err) {
@@ -182,7 +190,7 @@ const updateDisease = (req, res) => {
 // @desc    DELETE One Disease
 // @route   DELETE /diseases?name=${}
 // @access  Private
-const deleteDisease = (req, res) => {
+export const deleteDisease = (req, res) => {
     try {
         fs.readFile(diseaseFilePath, 'utf8', (err, data) => {
             if (err) {
@@ -226,10 +234,3 @@ const deleteDisease = (req, res) => {
     }
 }
 
-module.exports = {
-    getAllDiseases,
-    getOneDisease,
-    addDisease,
-    updateDisease,
-    deleteDisease
-};

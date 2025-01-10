@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
-const Patient = require('../Model/Users/patientSchema');
-const Doctor = require('../Model/Users/doctorSchema');
+import jwt from 'jsonwebtoken'
+import Patient from '../Model/Users/patientSchema.js'
+import Doctor from '../Model/Users/doctorSchema.js'
 
 const ProtectedRoute = async(req, res, next) => {
     const { accessToken } = req.cookies;
@@ -25,5 +25,6 @@ const ProtectedRoute = async(req, res, next) => {
             return;
         }
 }
- 
-module.exports = ProtectedRoute;
+
+export default ProtectedRoute
+

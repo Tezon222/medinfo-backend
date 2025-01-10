@@ -1,7 +1,8 @@
-const passport = require("passport")
-const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
-const Patient = require("../Model/Users/patientSchema")
-const { callApi } = require("@zayne-labs/callapi/legacy")
+import passport from "passport"
+import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
+import Patient from "../Model/Users/patientSchema.js"
+import pkg from '@zayne-labs/callapi/legacy';
+const { callApi } = pkg;
 
 passport.use(new GoogleStrategy({
     clientID:     process.env.GOOGLE_CLIENT_ID,

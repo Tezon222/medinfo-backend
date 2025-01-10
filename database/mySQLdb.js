@@ -1,6 +1,6 @@
-const mysql = require('mysql2')
+import mysql from 'mysql2'
 
-const db = mysql.createConnection({
+export const db = mysql.createConnection({
     host:"127.0.0.1",
     user: "root",
         password: '351885',
@@ -19,7 +19,7 @@ const db = mysql.createConnection({
     //     }
     // })
     
-const connectSQLdb =()=>{
+export const connectSQLdb =()=>{
     // Inserting a value into the table
     db.connect((err)=>{
         if(err){
@@ -33,5 +33,3 @@ const connectSQLdb =()=>{
     }})
 
 }
-
-module.exports = {db, connectSQLdb}
