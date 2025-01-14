@@ -2,23 +2,14 @@ import appointmentModel from "../../Model/Appointments/appointmentModel.js"
 import doctorModel from "../../Model/Users/doctorSchema.js"
 import patientModel from "../../Model/Users/patientSchema.js"
 import { pipeline } from "@xenova/transformers"
+import getTopDoctors from "./matchDoctorAlgorithm.js"
 import jwt from "jsonwebtoken"
 
 let probableAppointment = []
 
-const createPatientVector = async (reason) => {
-    const extractor = await pipeline(
-        "feature-extraction",
-        "Xenova/all-MiniLM-L6-v2"
-    )    
-
-    const response = await extractor( 
-        [reason],
-        { pooling: "mean", normalize: true }
-    )  
-
-    console.log(response, "BREAK", response.data, "BREAK", Array.from(response.data))
-}
+export const test = async (req, res) => {
+    console.log("this is a test")
+} 
 
 export const matchDoctor = async (req, res) =>{
     const { name, email, dob, gender, phoneNumber, reason, dateOfAppointment, medicalConditions, allergies, healthInsurance } = req.body
@@ -29,18 +20,21 @@ export const matchDoctor = async (req, res) =>{
         } 
         
         probableAppointment.push(name, email, dob, gender, phoneNumber, reason, dateOfAppointment, medicalConditions, allergies, healthInsurance)
-        createPatientVector(reason)
+        
+        const randomDocsArr = await getTopDoctors(reason)
+        const doctors = await doctorModel.find()
 
-        const randomDoc =  await doctorModel.aggregate([{ $sample: { size: 1 } }])
-        res.status(201).json(randomDoc)
-    }catch(err){
+        let selectedDoctors = []
+        
+        for (let index = 0; index < randomDocsArr.length; index++) {
+            // const element = array[index];
+            selectedDoctors.push(doctors[randomDocsArr[index]])           
+        }
+
+        res.status(201).json({selectedDoctors}) 
+    }catch(err) {
         res.status(400).json({ Error: err.message })
     }
-}
-
-export const declineDoctor = (req, res) => {
-    probableAppointment = []
-    res.status(200).redirect("/bookAppointment")
 }
  
 export const bookAppointment = async (req, res) =>{ 
@@ -109,7 +103,6 @@ export const getDoctorsAppointments = async (req, res)=>{
 
 //make sure to clear db
 //     const test = async (req, res) => {
-
 // }
 
 // const matchDoctor = async (req, res) => {
