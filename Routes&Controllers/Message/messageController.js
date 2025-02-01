@@ -1,7 +1,7 @@
-const Messages = require('../../Model/Messages/messageSchema')
-const Conversation = require("../../Model/Messages/conversationSchema")
+import Messages from '../../Model/Messages/messageSchema.js'
+import Conversation from "../../Model/Messages/conversationSchema.js"
 
-const sendMessage = async(req, res) =>{
+export const sendMessage = async(req, res) =>{
     try {
         const {senderId} = req.params
         const {sender,receiverId, message} = req.body 
@@ -30,7 +30,7 @@ const sendMessage = async(req, res) =>{
     }
 } 
 
-const getConversation = async(req, res) =>{
+export const getConversation = async(req, res) =>{
     const {senderId,receiverId} = req.params
     if(!senderId || !receiverId){
         res.status(400).json({message: "Invalid request"})
@@ -42,5 +42,3 @@ const getConversation = async(req, res) =>{
     }
     res.status(200).json({message: conversationExisit.messageIds})
 }
-
-module.exports = {sendMessage, getConversation}

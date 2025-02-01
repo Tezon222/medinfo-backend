@@ -1,8 +1,8 @@
-const express = require("express")
+import express from "express"
+import Patient from "../Model/Users/patientSchema.js"
+import Doctor from "../Model/Users/doctorSchema.js"
+import jwt from "jsonwebtoken"
 const router = express.Router()
-const Patient = require("../Model/Users/patientSchema")
-const Doctor = require("../Model/Users/doctorSchema")
-const jwt = require("jsonwebtoken")
 
 router.get("/", async(req,res)=>{
     const {accessToken} = req.cookies
@@ -26,4 +26,4 @@ router.get("/", async(req,res)=>{
    
   })
 
-module.exports = router
+export default router

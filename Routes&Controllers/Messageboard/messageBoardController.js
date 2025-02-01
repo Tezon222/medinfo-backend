@@ -1,8 +1,8 @@
-const postModel = require("../../Model/MessageBoard/postsModel")
-const patientModel = require("../../Model/Users/patientSchema")
-const doctorModel = require("../../Model/Users/doctorSchema")
+import postModel from "../../Model/MessageBoard/postsModel.js"
+import patientModel from "../../Model/Users/patientSchema.js"
+import doctorModel from "../../Model/Users/doctorSchema.js"
 
-const getAllPosts = async (req, res)=>{
+export const getAllPosts = async (req, res)=>{
   try {
       const posts = await postModel.find()
       res.status(200).json(posts)
@@ -11,7 +11,7 @@ const getAllPosts = async (req, res)=>{
     }
 }
  
-const getPostById = async (req, res)=>{
+export const getPostById = async (req, res)=>{
   try { 
     const post = await postModel.findById(req.params.postId) 
 
@@ -33,7 +33,7 @@ const getPostById = async (req, res)=>{
   }
 }
 
-const createPost = async(req, res)=>{
+export const createPost = async(req, res)=>{
     const {title, content} = req.body
     const id = req.params.id
     try{
@@ -49,7 +49,7 @@ const createPost = async(req, res)=>{
     }
 }
 
-const createComment = async(req, res)=>{
+export const createComment = async(req, res)=>{
     const {commentContent} = req.body
     const commenterId = req.params.commenterId
     try {
@@ -78,5 +78,3 @@ const createComment = async(req, res)=>{
         res.status(400).json({ error: error.message })
       }
 }
-
-module.exports = {createPost, createComment, getAllPosts, getPostById}

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+import  mongoose from "mongoose"
 const Schema = mongoose.Schema
 const Patients = new Schema({
     googleId:{
@@ -37,6 +37,12 @@ const Patients = new Schema({
         type: String, 
         default: "Patient"
     },
+    logins: [
+        {
+          month: { type: String }, // e.g., '2024-11'
+          count: { type: Number, default: 0 }
+        }
+    ],
     haveAppointment:{
         type: Boolean,
         default: false
@@ -58,4 +64,4 @@ const Patients = new Schema({
 })
 
 const Patient = mongoose.model("Patients", Patients)
-module.exports = Patient 
+export default Patient 

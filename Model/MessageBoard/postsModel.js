@@ -1,5 +1,6 @@
-const mongoose =  require("mongoose")
+import mongoose from "mongoose"
 const Schema = mongoose.Schema
+
 const postSchema = new Schema({
     author: { 
         type: String/*mongoose.Schema.Types.ObjectId */,
@@ -42,4 +43,4 @@ const postSchema = new Schema({
 })
 
 const Post = mongoose.model("Posts", postSchema)
-module.exports = Post
+export default Post

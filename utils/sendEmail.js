@@ -1,7 +1,9 @@
-const nodemailer = require("nodemailer");
-const paths = require("path")
-const ejs = require("ejs");
-require("dotenv").config();
+import nodemailer from "nodemailer"
+import paths from "path"
+import ejs from "ejs"
+import dotenv from 'dotenv'
+
+dotenv.config();
 
 // const { EMAIL_HOST, EMAIL_PORT, EMAIL_USERNAME, EMAIL_PASSWORD } = process.env;
 const transport = nodemailer.createTransport({
@@ -43,7 +45,6 @@ const sendEmail = (receiver, name, subject, content, directory) => {
   );
 };
 
-module.exports = {
-  sendEmail
-};
+export default sendEmail
+
 

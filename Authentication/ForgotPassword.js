@@ -1,8 +1,8 @@
-const express = require('express')
-const { sendEmail } = require('../utils/sendEmail')
-const User = require("../Model/Users/patientSchema")
-const paths = require("path")
-const route = express.Router()
+import express from 'express'
+import sendEmail from '../utils/sendEmail.js'
+import User from "../Model/Users/patientSchema.js"
+import paths from "path"
+const route = express.Router() 
 
 route.get("/", async(req,res)=>{
     const {email} = req.body
@@ -36,4 +36,5 @@ route.post('/verify', async(req,res)=>{
         res.status(200).json({message: "User password successfully updated"})
     }
   })
-module.exports = route
+
+export default route

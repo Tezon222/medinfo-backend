@@ -1,11 +1,17 @@
-const appointmentModel = require("../../Model/Appointments/appointmentModel")
-const doctorModel = require("../../Model/Users/doctorSchema")
-const patientModel = require("../../Model/Users/patientSchema")
-const jwt = require("jsonwebtoken") 
+import appointmentModel from "../../Model/Appointments/appointmentModel.js"
+import doctorModel from "../../Model/Users/doctorSchema.js"
+import patientModel from "../../Model/Users/patientSchema.js"
+import { pipeline } from "@xenova/transformers"
+import getTopDoctors from "./matchDoctorAlgorithm.js"
+import jwt from "jsonwebtoken"
 
 let probableAppointment = []
 
-const matchDoctor = async (req, res) =>{
+export const test = async (req, res) => {
+    console.log("this is a test")
+} 
+
+export const matchDoctor = async (req, res) =>{
     const { name, email, dob, gender, phoneNumber, reason, dateOfAppointment, medicalConditions, allergies, healthInsurance } = req.body
 
     try{
@@ -14,20 +20,24 @@ const matchDoctor = async (req, res) =>{
         } 
         
         probableAppointment.push(name, email, dob, gender, phoneNumber, reason, dateOfAppointment, medicalConditions, allergies, healthInsurance)
+        
+        const randomDocsArr = await getTopDoctors(reason)
+        const doctors = await doctorModel.find()
 
-        const randomDoc =  await doctorModel.aggregate([{ $sample: { size: 1 } }])
-        res.status(201).json(randomDoc)
-    }catch(err){
+        let selectedDoctors = []
+        
+        for (let index = 0; index < randomDocsArr.length; index++) {
+            // const element = array[index];
+            selectedDoctors.push(doctors[randomDocsArr[index]])           
+        }
+
+        res.status(201).json({selectedDoctors}) 
+    }catch(err) {
         res.status(400).json({ Error: err.message })
     }
 }
-
-const declineDoctor = (req, res) => {
-    probableAppointment = []
-    res.status(200).redirect("/bookAppointment")
-}
  
-const bookAppointment = async (req, res) =>{ 
+export const bookAppointment = async (req, res) =>{ 
     const {doctorId} = req.params //collect doctor id from params
 
     //patientID Collection
@@ -68,7 +78,7 @@ const bookAppointment = async (req, res) =>{
     res.status(201).json({message: "Appointment successfully booked", appointment})
 }
 
-const getPatientsAppointments = async (req, res)=>{
+export const getPatientsAppointments = async (req, res)=>{
     //patientID Collection
     const token = req.cookies.accessToken
     const decoded = jwt.verify(token, process.env.JWT_SECRET) 
@@ -79,7 +89,7 @@ const getPatientsAppointments = async (req, res)=>{
     res.status(200).json(patient)
 }
 
-const getDoctorsAppointments = async (req, res)=>{
+export const getDoctorsAppointments = async (req, res)=>{
     //patientID Collection
     const token = req.cookies.accessToken
     const decoded = jwt.verify(token, process.env.JWT_SECRET) 
@@ -92,12 +102,10 @@ const getDoctorsAppointments = async (req, res)=>{
 
 
 //make sure to clear db
-    const test = async (req, res) => {
-
-}
+//     const test = async (req, res) => {
+// }
 
 // const matchDoctor = async (req, res) => {
 // const appointment = await appointmentModel.findById("672fd3fb49bd9c979f5dee70").populate("patient").populate("doctor")
 // res.send(appointment.patient.firstName)}
 
-module.exports = {matchDoctor, declineDoctor, bookAppointment, getPatientsAppointments, getDoctorsAppointments, test}
