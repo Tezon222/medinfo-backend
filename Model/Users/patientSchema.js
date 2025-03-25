@@ -22,16 +22,20 @@ const Patients = new Schema({
     },
     email:{
         type: String,
-        required: [true, "Please enter your Email"]
+        required: [true, "Please enter your Email"],
+        select: false
     },
     password:{
         type: String,
+        select: false
     },
     dob:{
         type: String,
+        select: false
     },
     country:{
         type: String,
+        select: false
     },
     role:{
         type: String, 
