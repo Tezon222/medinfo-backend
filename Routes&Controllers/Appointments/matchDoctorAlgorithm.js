@@ -73,7 +73,8 @@ const getTopDoctors = async (reason) => {
     }
 
     // Create objects with num and index
-    let filtered = thresholds.map((num, index) => ({ num, index })).filter(item => item.num > 0.5)// Keep only items where num > 0.5
+    let filtered = thresholds.map((num, index) => ({ num, index })).filter(item => item.num > 0)// Keep only items where num > 0 //will change when we have more doctors
+    //let filtered = thresholds.map((num, index) => ({ num, index })).filter(item => item.num > 0.5)// Keep only items where num > 0.5
 
     // Sort the filtered array in descending order by num
     filtered.sort((a, b) => b.num - a.num)
