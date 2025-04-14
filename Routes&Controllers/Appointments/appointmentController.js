@@ -16,7 +16,7 @@ export const matchDoctor = async (req, res) =>{
 
     try{
         if(!name || !email || !dob || !gender || !phoneNumber || !reason || !dateOfAppointment || !healthInsurance){
-            res.status(400).json({message: "Please fill all fields"})  
+            return res.status(400).json({message: "Please fill all fields"})  
         } 
         
         probableAppointment.push(name, email, dob, gender, phoneNumber, reason, dateOfAppointment, medicalConditions, allergies, healthInsurance)
@@ -31,9 +31,9 @@ export const matchDoctor = async (req, res) =>{
             selectedDoctors.push(doctors[randomDocsArr[index]])           
         }
 
-        res.status(201).json({selectedDoctors}) 
+        return res.status(201).json({selectedDoctors}) 
     }catch(err) {
-        res.status(400).json({ Error: err.message })
+       return res.status(400).json({ Error: err.message })
     }
 }
  
@@ -75,7 +75,7 @@ export const bookAppointment = async (req, res) =>{
 
     probableAppointment = []
  
-    res.status(201).json({message: "Appointment successfully booked", appointment})
+   return res.status(201).json({message: "Appointment successfully booked", appointment})
 }
 
 export const getPatientsAppointments = async (req, res)=>{
