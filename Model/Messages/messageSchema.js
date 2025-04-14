@@ -24,8 +24,7 @@ const message = new schema({
    },
     message:{
         type: String,
-        required: true,
-        default: []
+        required: true
     }
 }, {timestamp: true})
 

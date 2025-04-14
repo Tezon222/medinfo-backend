@@ -14,7 +14,6 @@ const conversation = new Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Messages'
-
         }
     ]
 },{timestamps: true})
