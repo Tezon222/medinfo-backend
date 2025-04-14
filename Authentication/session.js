@@ -13,7 +13,7 @@ router.get("/", async(req,res)=>{
       }
       const verifyAccessToken = await jwt.verify(accessToken, process.env.JWT_SECRET)
       const userId = verifyAccessToken.user_id
-      const patient = await Patient.findById(userId).select(['firstName', "email", "role"])
+      const patient = await Patient.findById(userId).select(['firstName', "email", "role", "gender", "dob"])
       const doctor = await Doctor.findById(userId).select(['firstName', "email", "role"])
       if(!patient && !doctor){
          res.status(400).json({message: "User does not exist"})
