@@ -1,6 +1,6 @@
 import  mongoose from "mongoose"
 const Schema = mongoose.Schema
-const Patients = new Schema({
+const Users = new Schema({
     googleId:{
         type: String,
     },
@@ -33,6 +33,14 @@ const Patients = new Schema({
     country:{
         type: String,
     },
+    specialty:{
+        type: String,
+        required: [true, "Please enter your Specialty"]
+    }, 
+    medicalCert:{ 
+        type: String,
+        required: [true, "Please provide your valid Medical Certificate"]
+    },
     role:{
         type: String, 
         default: "Patient"
@@ -61,12 +69,12 @@ const Patients = new Schema({
     },
     chatList:[{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Doctors'
+        ref: 'Users'
     }
     ]
 },{
     timestamps: true
 })
 
-const Patient = mongoose.model("Patients", Patients)
-export default Patient 
+const User = mongoose.model("Users", Users)
+export default User 
