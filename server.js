@@ -10,10 +10,9 @@ import diseasesRoute from "./Routes&Controllers/Ailment Archive/ailmentArchiveRo
 import appointmentRoute from "./Routes&Controllers/Appointments/appointmentRouter.js"
 import forgotPasswordRoute from "./Authentication/ForgotPassword.js" 
 import dashboardRoute from "./Routes&Controllers/Dashboard/dashboardRoute.js" 
+import UserRoute from "./Routes&Controllers/Authentication/UserRoute.js" 
 import session from "express-session" 
 import passport from "passport"
-import paths from "path" 
-import sendEmail from "./utils/sendEmail.js"    
 import {server, app} from "./utils/socket.io.js" 
 import sessionRoute from './Authentication/session.js' 
 import connectdb from "./database/mongodb.js"
@@ -54,6 +53,7 @@ app.use('/diseases', diseasesRoute)
 app.use('/forgotpassword', forgotPasswordRoute)
 app.use('/bookAppointment', appointmentRoute)
 app.use('/dashboard', dashboardRoute)
+app.use('/user', UserRoute)
 
 // connectSQLdb()
 connectdb()

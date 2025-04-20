@@ -35,11 +35,9 @@ const Users = new Schema({
     },
     specialty:{
         type: String,
-        required: [true, "Please enter your Specialty"]
     }, 
     medicalCert:{ 
         type: String,
-        required: [true, "Please provide your valid Medical Certificate"]
     },
     role:{
         type: String, 
@@ -69,7 +67,8 @@ const Users = new Schema({
     },
     chatList:[{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users'
+        ref: 'Users',
+        default:[]
     }
     ]
 },{
