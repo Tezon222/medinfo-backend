@@ -51,7 +51,7 @@ app.use('/message', messageRoute)
 app.use('/patient', patientRoute)
 app.use('/diseases', diseasesRoute)
 app.use('/forgotpassword', forgotPasswordRoute)
-app.use('/bookAppointment', appointmentRoute)
+app.use('/appointments', appointmentRoute)
 app.use('/dashboard', dashboardRoute)
 app.use('/user', UserRoute)
 
