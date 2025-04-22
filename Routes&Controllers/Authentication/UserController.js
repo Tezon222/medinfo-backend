@@ -31,6 +31,9 @@ export const getSingleUser = async(req,res)=>{
 // signup Users
 export const signupUser = async(req,res)=>{
     const {role} = req.query
+    if(!role){
+      return res.status(400).json({message: "Please specify a valid role in the query", role})  
+    }
     const {firstName, lastName, email, password, country, gender, dob, medicalCert, specialty} = req.body
         try {  
             if(!firstName || !lastName || !email || !password || !country || !dob || !gender){
@@ -57,7 +60,7 @@ if(role === 'doctor' && !medicalCert && !specialty){
         return res.status(201).json({message: "User Signup Successful", User:{name: firstName}} )
       } 
     });
-        await User.create({firstName, lastName, email, password: securePassword, country, role: "Patient", gender, dob, picture: avatar})
+      await User.create({firstName, lastName, email, password: securePassword, country, role: "Patient", gender, dob, picture: avatar})
       return  res.status(201).json({message: "User Signup Successful", User:{name: firstName}} )
     }else if(user){
       return res.status(400).json({message:"User already exists"})
