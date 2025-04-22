@@ -78,7 +78,7 @@ export const signupPatient = async(req,res)=>{
 export const loginPatient = async(req,res) =>{
     const {email, password} = req.body 
     try {
-        const user = await Patient.findOne({email})
+        const user = await Patient.findOne({email}).select('+password')
         if(!user){
             res.status(400).json({message:"Invalid username or Password"})
         }else if(!user.password){

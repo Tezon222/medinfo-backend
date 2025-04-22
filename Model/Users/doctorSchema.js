@@ -19,15 +19,18 @@ const Doctors = new Schema({
     },
     email:{
         type: String,
-        required: [true, "Please enter your Email"]
+        required: [true, "Please enter your Email"],
+        select: false
     },
     password:{
         type: String,  
-        required: [true, "Please enter your Password"]
+        required: [true, "Please enter your Password"],
+        select: false
     },
     country:{
         type: String,
-        required: [true, "Please enter your country"]
+        required: [true, "Please enter your country"],
+        select: false
     },
     specialty:{
         type: String,
@@ -35,7 +38,8 @@ const Doctors = new Schema({
     }, 
     medicalCert:{ 
         type: String,
-        required: [true, "Please provide your valid Medical Certificate"]
+        required: [true, "Please provide your valid Medical Certificate"],
+        select: false
     },
     role:{
         type: String,
@@ -60,7 +64,7 @@ const Doctors = new Schema({
     }
     ]
 },{
-    timestamps: true
+    timestamps: true,
 })
 
 const Doctor = mongoose.model("Doctors", Doctors)
