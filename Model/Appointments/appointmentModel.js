@@ -44,11 +44,11 @@ const appointmentSchema = new Schema({
     }, 
     patient: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Patients'
+        ref: 'Users'
     },
     doctor: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Doctors'
+        ref: 'Users'
     }
 })
 

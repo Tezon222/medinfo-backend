@@ -1,4 +1,4 @@
-import doctorModel from "../../Model/Users/doctorSchema.js"
+import User from "../../Model/Users/userSchema.js"
 import { pipeline } from "@xenova/transformers"
 
 //computes the dot product btw two vectors
@@ -47,7 +47,7 @@ const createDoctorVector = async () => {
         "feature-extraction",
         "Xenova/all-MiniLM-L6-v2"
     )    
-    const doctors = await doctorModel.find()
+    const doctors = await User.find({role: "Doctor"})
     var specialties = [ ]
 
     for (const doctor of doctors) {

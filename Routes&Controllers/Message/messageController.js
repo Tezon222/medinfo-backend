@@ -34,13 +34,46 @@ export const sendMessage = async(req, res) =>{
             }
 } 
 
-export const getChatList =async(req,res)=>{
-    const {id} = req.params
-    if(!id){
-        res.status(400).json({message: "No user id provided"})
+export const getChatList = async (req, res) => {
+    const { id } = req.params;
+    if (!id) {
+        return res.status(400).json({ message: "No user id provided" });
     }
-    const chatList = await User.findById(id).select('chatList').populate('chatList')
-    return res.status(200).json({message: chatList})
+    
+    try {
+        const chatList = await User.findById(id).select('chatList').populate({
+            path: 'chatList', 
+            select: "firstName lastName picture _id"
+        });
+        
+        const senderId = id;
+        const receivers = chatList.chatList;
+        
+        const result = await Promise.all(receivers.map(async ({ _id, firstName, lastName, picture }) => {
+            const conversation = await Conversation.findOne({
+                participants: { $all: [senderId, _id] }
+            })
+            .sort({ updatedAt: -1 })
+            .populate({
+                path: 'messageIds',
+                select: "message",
+                options: { sort: { createdAt: -1 }, limit: 1 }
+            })
+            .lean();
+            
+            return {
+                _id, 
+                firstName, 
+                lastName, 
+                picture,
+                lastMessage: conversation?.messageIds[0]?.message || null
+            };
+        }));
+        return res.status(200).json({ message: result, senderId, receivers });
+    } catch (error) {
+        console.error("Error in getChatList:", error);
+        return res.status(500).json({ message: "Server error" });
+    }
 }
 
 export const getConversation = async(req, res) =>{

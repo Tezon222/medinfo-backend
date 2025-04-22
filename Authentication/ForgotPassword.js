@@ -1,18 +1,18 @@
 import express from 'express'
 import sendEmail from '../utils/sendEmail.js'
-import User from "../Model/Users/patientSchema.js"
 import paths from "path"
+import User from '../Model/Users/userSchema.js'
 const route = express.Router() 
 
 route.get("/", async(req,res)=>{
     const {email} = req.body
 
     if(!email){
-        res.status(400).json({message: "Please enter Email"})
+        return res.status(400).json({message: "Please enter Email"})
     }
     const user = await User.findOne({email})
     if(!user){
-        res.status(400).json({message: "User does not exist"})
+       return res.status(400).json({message: "User does not exist"})
     }
     else{
         const otp =  Math.floor(1000 + Math.random() * 9000)
@@ -28,12 +28,12 @@ route.post('/verify', async(req,res)=>{
     const user = await User.findOne({email})
     const isVerified = await bcrypt.compare(token, user.otp) 
      if(!isVerified){
-        res.status(400).json({message: "Invalid token"})
+        return res.status(400).json({message: "Invalid token"})
     } else{
         const securePassword = await bcrypt.hash(password, 10)
         user.password = securePassword
         await user.save()
-        res.status(200).json({message: "User password successfully updated"})
+        return res.status(200).json({message: "User password successfully updated"})
     }
   })
 

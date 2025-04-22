@@ -1,6 +1,5 @@
 import appointmentModel from "../../Model/Appointments/appointmentModel.js"
-import doctorModel from "../../Model/Users/doctorSchema.js"
-import patientModel from "../../Model/Users/patientSchema.js"
+import User from "../../Model/Users/userSchema.js"
 import { pipeline } from "@xenova/transformers"
 import getTopDoctors from "./matchDoctorAlgorithm.js"
 import jwt from "jsonwebtoken"
@@ -22,7 +21,7 @@ export const matchDoctor = async (req, res) =>{
         probableAppointment.push(name, email, dob, gender, phoneNumber, reason, dateOfAppointment, medicalConditions, allergies, healthInsurance)
         
         const randomDocsArr = await getTopDoctors(reason)
-        const doctors = await doctorModel.find()
+        const doctors = await User.find({role: "Doctor"})
 
         let selectedDoctors = []
         
@@ -61,8 +60,8 @@ export const bookAppointment = async (req, res) =>{
     })
 
     await appointment.save()
-    const patient = await patientModel.findById(patientId)
-    const doctor = await doctorModel.findById(doctorId)
+    const patient = await User.findById(patientId)
+    const doctor = await User.findById(doctorId)
 
     patient.haveAppointment = true
     patient.appointments = appointment._id
@@ -84,7 +83,7 @@ export const getPatientsAppointments = async (req, res)=>{
     const decoded = jwt.verify(token, process.env.JWT_SECRET) 
     const patientId = decoded.user_id
 
-    const patient = await patientModel.findById(patientId).populate("appointments")
+    const patient = await User.findById(patientId).populate("appointments")
 
     res.status(200).json(patient)
 }
@@ -95,7 +94,7 @@ export const getDoctorsAppointments = async (req, res)=>{
     const decoded = jwt.verify(token, process.env.JWT_SECRET) 
     const doctorId = decoded.user_id
 
-    const doctor = await doctorModel.findById(doctorId).populate("appointments")
+    const doctor = await User.findById(doctorId).populate("appointments")
 
     res.status(200).json(doctor)
 }
