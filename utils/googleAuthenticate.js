@@ -1,7 +1,7 @@
 import passport from "passport"
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
-import Patient from "../Model/Users/patientSchema.js"
 import pkg from '@zayne-labs/callapi/legacy';
+import User from "../Model/Users/userSchema.js";
 const { callApi } = pkg;
 
 passport.use(new GoogleStrategy({
@@ -12,8 +12,8 @@ passport.use(new GoogleStrategy({
   },
   async function verify(request, accessToken, refreshToken, profile,done) {
         const {id, family_name, email, given_name, picture } = profile
-        const existingUser = await Patient.findOne({googleId: id})
-        const existingUseremail = await Patient.findOne({email})
+        const existingUser = await User.findOne({googleId: id})
+        const existingUseremail = await User.findOne({email})
         if(existingUser || existingUseremail){
          return  done(null, existingUseremail)
         } else{
@@ -25,9 +25,8 @@ passport.use(new GoogleStrategy({
             }
           })
           if(error == null){
-            console.log(data)
             const gender = data.genders[0].formattedValue
-            const user = await Patient.create({firstName: family_name, googleId: id, email, picture, lastName: given_name, verified: true,gender})
+            const user = await User.create({firstName: family_name, googleId: id, email, picture, lastName: given_name, verified: true,gender})
             return done(null, user)
           }else{
             return done(error, null)

@@ -57,7 +57,12 @@ const Doctors = new Schema({
     ],
     accessToken:{
         type: String
+    },
+    chatList:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Patients'
     }
+    ]
 },{
     timestamps: true,
 })

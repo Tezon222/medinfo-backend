@@ -4,10 +4,10 @@ const Schema = mongoose.Schema
 const conversation = new Schema({
     participants:[
         {   type: mongoose.Schema.Types.ObjectId,
-            ref: 'Doctors'
+            ref: 'Users'
      },
         {   type: mongoose.Schema.Types.ObjectId,
-            ref: 'Patients'
+            ref: 'Users'
      }
     ],
     messageIds:[

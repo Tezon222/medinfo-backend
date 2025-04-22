@@ -1,5 +1,5 @@
 import axios from 'axios'
-import patientModel from "../../Model/Users/patientSchema.js"
+import User from "../../Model/Users/userSchema.js"
 import jwt from "jsonwebtoken"
 
 export const getPatientAnalytics = async (req, res) => {
@@ -7,7 +7,7 @@ export const getPatientAnalytics = async (req, res) => {
     const token = req.cookies.accessToken
     const decoded = jwt.verify(token, process.env.JWT_SECRET) 
     const patientId = decoded.user_id
-    const patient = await patientModel.findById(patientId)
+    const patient = await User.findById(patientId)
 
     const currentYear = new Date().getFullYear()
     const {selectedYear} = req.body

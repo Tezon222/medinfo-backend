@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken'
-import Patient from '../Model/Users/patientSchema.js'
-import Doctor from '../Model/Users/doctorSchema.js'
+import User from '../Model/Users/userSchema.js';
 
 const ProtectedRoute = async(req, res, next) => {
     const { accessToken } = req.cookies;
@@ -15,13 +14,12 @@ const ProtectedRoute = async(req, res, next) => {
             res.status(401).json({ message: 'Invalid access token'});
             return;
         }
-        const patient = await Patient.findById(userId).select(['-password']);
-        const doctor = await Doctor.findById(userId).select(['-password']);
+        const user = await User.findById(userId).select(['-password']);
         
-        if (patient || doctor) {
+        if (user) {
             next();
         }else{
-            res.status(401).json({ message: 'User is not authorized', patient, doctor, decoded });
+            res.status(401).json({ message: 'User is not authorized', user, doctor, decoded });
             return;
         }
 }
