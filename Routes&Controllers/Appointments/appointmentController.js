@@ -1,13 +1,14 @@
 import appointmentModel from "../../Model/Appointments/appointmentModel.js"
 import User from "../../Model/Users/userSchema.js"
-import { pipeline } from "@xenova/transformers"
 import getTopDoctors from "./matchDoctorAlgorithm.js"
 import jwt from "jsonwebtoken"
+import {createZoomMeeting, deleteZoomMeeting} from "./zoomservice.js"
 
 let probableAppointment = []
 
 export const test = async (req, res) => {
-    console.log("this is a test")
+    const allAppointments = await appointmentModel.find()
+    res.json({allAppointments})
 } 
 
 export const matchDoctor = async (req, res) =>{
@@ -26,16 +27,17 @@ export const matchDoctor = async (req, res) =>{
         let selectedDoctors = []
         
         for (let index = 0; index < randomDocsArr.length; index++) {
-            // const element = array[index];
+            // const element = array[index]
             selectedDoctors.push(doctors[randomDocsArr[index]])           
         }
-
+        
         return res.status(201).json({selectedDoctors}) 
     }catch(err) {
-       return res.status(400).json({ Error: err.message })
+        return res.status(400).json({ Error: err.message })
     }
 }
  
+//Later, implement a sendmail to both doctor and patient
 export const bookAppointment = async (req, res) =>{ 
     const {doctorId} = req.params //collect doctor id from params
 
@@ -44,6 +46,12 @@ export const bookAppointment = async (req, res) =>{
     const decoded = jwt.verify(token, process.env.JWT_SECRET) 
     const patientId = decoded.user_id
  
+   try{
+    const patient = await User.findById(patientId)
+    const doctor = await User.findById(doctorId)
+
+    const zoomMeeting = await createZoomMeeting(patient.email, doctor.email, probableAppointment[5], probableAppointment[6]) 
+
     const appointment = new appointmentModel({
         name: probableAppointment[0],
         email: probableAppointment[1],
@@ -55,14 +63,14 @@ export const bookAppointment = async (req, res) =>{
         medicalConditions: probableAppointment[7], 
         allergies: probableAppointment[8], 
         healthInsurance: probableAppointment[9],
+        meetingUrl: zoomMeeting.join_url, 
+        meetingID: zoomMeeting.id, 
         patient: patientId,
         doctor: doctorId
     })
 
     await appointment.save()
-    const patient = await User.findById(patientId)
-    const doctor = await User.findById(doctorId)
-
+    
     patient.haveAppointment = true
     patient.appointments = appointment._id
    
@@ -72,12 +80,44 @@ export const bookAppointment = async (req, res) =>{
     await patient.save()
     await doctor.save()
 
+    const appointmentDetails = {
+        appointmentId: appointment.id,
+        appointmentName: probableAppointment[5],
+        dateOfAppointment: probableAppointment[6], 
+        patientName: patient.lastName, 
+        doctorName: doctor.lastName,
+        meetingUrl: zoomMeeting.join_url,
+        meetingID: zoomMeeting.id
+    }
+
     probableAppointment = []
- 
-   return res.status(201).json({message: "Appointment successfully booked", appointment})
+
+    return res.status(201).json({message: "Success! Appointment Booked", appointmentDetails})
+   }catch(err){
+    return res.status(400).json({ Error: err })
+   }
 }
 
-export const getPatientsAppointments = async (req, res)=>{
+export const deleteAppointment = async (req, res) => {
+    const {appointmentId, zoomId} = req.params 
+
+    try{
+        const zoomMeeting = await deleteZoomMeeting(zoomId)
+        await appointmentModel.findByIdAndDelete(appointmentId)
+
+        // Remove references in patient and user model
+        await User.updateMany(
+            { appointments: appointmentId },
+            { $pull: { appointments: appointmentId } }
+        )
+
+        return res.status(200).json({message: "Success! Appointment Deleted", zoomStatus: zoomMeeting})
+    }catch(err){
+        return res.status(400).json({ Error: err })
+    }
+}
+
+export const getPatientsAppointments = async (req, res)=>{ 
     //patientID Collection
     const token = req.cookies.accessToken
     const decoded = jwt.verify(token, process.env.JWT_SECRET) 
