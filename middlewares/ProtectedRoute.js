@@ -15,11 +15,12 @@ const ProtectedRoute = async(req, res, next) => {
             return;
         }
         const user = await User.findById(userId).select(['-password']);
+        // console.log(user)
         
         if (user) {
             next();
         }else{
-            res.status(401).json({ message: 'User is not authorized', user, doctor, decoded });
+            res.status(401).json({ message: 'User is not authorized', user, decoded });
             return;
         }
 }

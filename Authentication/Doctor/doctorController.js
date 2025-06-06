@@ -1,5 +1,5 @@
 // const {db} from("../../database/mySQLdb")
-import Doctor from "../../Model/Users/doctorSchema.js"
+import User from "../../Model/Users/userSchema.js"
 import emailValidator from '../../utils/emailValidator.js'
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
@@ -8,7 +8,7 @@ import {cloudinary} from "../../utils/cloudinary.js"
 
 // Get All Doctors
 export const getDoctors = async(req,res)=>{
-  const users = await Doctor.find()
+  const users = await User.find()
   res.status(200).json({message: users})
 }
 
@@ -19,7 +19,7 @@ export const getSingleDoctor = async(req,res)=>{
     if(!id){
       res.status(400).json({message:"Please enter an ID"})
     }
-    const user = await Doctor.findById(id)
+    const user = await User.findById(id)
     if(!user){ res.status(400).json({message: "Doctor does not exist"})}
     res.status(200).json({message: user})
   } catch (error) {
@@ -34,7 +34,7 @@ export const signupDoctor = async(req,res)=>{
             if(!firstName || !lastName || !email || !password || !country || !specialty || !gender){
                 res.status(400).json({message: "Please fill all fields"})  
             } 
-    const user =await Doctor.findOne({email});
+    const user =await User.findOne({email});
     const emailTrue = emailValidator(email)  
     if(!emailTrue){
       res.status(400).json({message:"please enter a valid Email"})
@@ -46,7 +46,7 @@ export const signupDoctor = async(req,res)=>{
       if(err){
         res.status(400).json({message: "Please upload a valid file"})
       }if(result){
-        await Doctor.create({firstName, lastName, email, password: securePassword, country, specialty, medicalCert: result.secure_url, gender, picture: avatar})
+        await User.create({firstName, lastName, email, password: securePassword, country, specialty, medicalCert: result.secure_url, gender, picture: avatar, role:"Doctor"})
         res.status(201).json({message: "Doctor Signup Successful", User:{name: firstName}} )
       }
     })    
