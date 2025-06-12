@@ -62,11 +62,12 @@ export const getChatList = async (req, res) => {
             .lean();
             
             return {
-                _id, 
+                id:_id, 
                 firstName, 
                 lastName, 
                 picture,
-                lastMessage: conversation?.messageIds[0]?.message || null
+                lastMessage: conversation?.messageIds[0]?.message || null,
+                time: conversation?.messageIds[0]?.createdAt
             };
         }));
         return res.status(200).json({ message: result, senderId, receivers });
