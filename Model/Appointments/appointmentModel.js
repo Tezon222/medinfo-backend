@@ -42,6 +42,12 @@ const appointmentSchema = new Schema({
         required: [true, 'Please add Insurance state'],
         enum: ["Yes", "No"]
     }, 
+    meetingUrl:{
+        type: String
+    },
+    meetingID:{
+        type: String
+    },
     patient: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users'

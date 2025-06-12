@@ -1,7 +1,6 @@
 // const {db} from("../../database/mySQLdb")
-import Patient from "../../Model/Users/patientSchema.js"
 import sendCookies from "../../utils/cookies.js"
-import emailValidator from '../../utils/emailValidator.js'
+import User from "../../Model/Users/userSchema.js"
 import moment from 'moment'
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken" 
@@ -16,8 +15,8 @@ export const getPatients = async(req,res)=>{
       }
       const verifyAccessToken = jwt.verify(accessToken, process.env.JWT_SECRET)
       const userId = verifyAccessToken.user_id
-      const user = await Patient.findById(userId).select(['-password'])
-      const allUsers = await Patient.find().select(['-password'])
+      const user = await User.findById(userId).select(['-password'])
+      const allUsers = await User.find().select(['-password'])
 
       if(user.role === "Admin"){
         res.status(200).json({message: allUsers})
@@ -29,7 +28,7 @@ export const getPatients = async(req,res)=>{
     }
 
     if(process.env.ENV === "development"){
-      const users = await Patient.find().select(['-password'])
+      const users = await User.find().select(['-password'])
       res.status(200).json({message: users})
     }
   } catch (error) {
@@ -47,7 +46,7 @@ export const getSinglePatient = async(req,res)=>{
     }
     const verifyAccessToken = jwt.verify(accessToken, process.env.JWT_SECRET)
     const userId = verifyAccessToken.user_id
-    const user = await Patient.findById(userId).select(['-password'])
+    const user = await User.findById(userId).select(['-password'])
     if(!user){ res.status(400).json({message: "User does not exist"})}
     res.status(200).json({message: user})
   } catch (error) {
@@ -61,14 +60,14 @@ export const signupPatient = async(req,res)=>{
     if(Object.keys(req.body).length < 7 && Object.values(req.body) > 7){
           res.status(400).json({message: "Please fill all fields"}) ;
      } 
-    const user =await Patient.findOne({email});
+    const user =await User.findOne({email});
     if(user){
       res.status(400).json({message:"User already exists"})
     }
     else if(!user){
     const securePassword = await bcrypt.hash(password, 10)
     const avatar = `https://avatar.iran.liara.run/public/${gender === "Male" ? "boy" : "girl"}`
-    const user = await Patient.create({firstName, lastName, email, password: securePassword, country, gender, dob, picture: avatar})
+    const user = await User.create({firstName, lastName, email, password: securePassword, country, gender, dob, picture: avatar})
     res.status(201).json({message: "User Signup Successful", User:{name: user.firstName}} )
     }
        
@@ -78,9 +77,9 @@ export const signupPatient = async(req,res)=>{
 export const loginPatient = async(req,res) =>{
     const {email, password} = req.body 
     try {
-        const user = await Patient.findOne({email}).select('+password')
+        const user = await User.findOne({email}).select('+password')
         if(!user){
-            res.status(400).json({message:"Invalid username or Password"})
+          res.status(400).json({message:"Invalid username or Password"})
         }else if(!user.password){
           res.status(400).json({message: "User can only signin with Google"})
       }else if(await bcrypt.compare(password, user.password)){
