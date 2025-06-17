@@ -68,7 +68,7 @@ const Users = new Schema({
     chatList:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users',
-        default:[]
+        default:[],
     }
     ]
 },{
@@ -77,3 +77,12 @@ const Users = new Schema({
 
 const User = mongoose.model("Users", Users)
 export default User 
+
+
+/*
+Use select: false in schema to automatically protect sensitive fields.
+
+Use .select("+field") when you need that field (e.g., for password verification in login).
+
+Use .select("-field") to manually remove fields in ad-hoc queries.
+*/

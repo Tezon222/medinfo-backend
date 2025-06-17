@@ -22,7 +22,7 @@ dotenv.config()
 
 const port = process.env.PORT
 
-app.use(express.json())//JSON middleware
+app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(cors({
   origin: ["http://localhost:8000", "http://localhost:3000", "https://medical-info.vercel.app"],
@@ -36,13 +36,14 @@ app.use(session({
 app.use(cookieParser())
 app.use(passport.authenticate('session'))
 app.use(passport.initialize())
+
 passport.serializeUser(function(user, done) {
   done(null, user);
 })
-
 passport.deserializeUser(function(user, done) {
   done(null, user)
 })
+
 app.use("/session", sessionRoute)
 app.use('/posts', postRoute)
 app.use('/dailyTips', dailyTipsRoute)
@@ -59,32 +60,32 @@ app.use('/user', UserRoute)
 connectdb()
 
 app.get("/login", (req, res)=>{  
-    //  res.send("welcome")
-     res.redirect("https://medical-info.vercel.app/signin?type=patient")
+  //  res.send("welcome")
+  res.redirect("https://medical-info.vercel.app/signin?type=patient")
 })
-app.get("/", (req,res)=>{
+
+app.get("/", (req, res)=>{
   res.send("Medinfo Server")
 })
 
 import './utils/googleAuthenticate.js'
-app.get('/auth/google',passport.authenticate('google', { scope:[ 'https://www.googleapis.com/auth/userinfo.email',
-            'https://www.googleapis.com/auth/userinfo.profile',
-            'https://www.googleapis.com/auth/user.gender.read',
-            "https://www.googleapis.com/auth/user.birthday.read" ] }));
-app.get('/auth/google/callback', 
-passport.authenticate('google', {
-    failureRedirect: '/login'
-  }), (req,res)=>{
-    res.redirect(`https://medical-info.vercel.app/patient`)
-  })
+app.get('/auth/google',passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.email',
+  'https://www.googleapis.com/auth/userinfo.profile',
+  'https://www.googleapis.com/auth/user.gender.read',
+  'https://www.googleapis.com/auth/user.birthday.read' ] }
+))
+
+app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login'}), (req, res) => {
+  res.redirect(`https://medical-info.vercel.app/patient`)
+})
   
 //catch errors middleware
 app.use((err, req, res, next) => {
-    console.log(err);
-    res.status(500).json({message: 'something broke', error: err});
-});
+  console.log(err)
+  res.status(500).json({message: 'something broke', error: err})
+})
 
-server.listen(port, ()=>{
-    console.log(`App running on port ${port}`)
+server.listen(port, () => {
+  console.log(`App running on http://localhost:${port}`)
 })
  
