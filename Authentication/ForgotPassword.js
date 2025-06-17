@@ -1,5 +1,5 @@
 import express from 'express'
-import sendEmail from '../utils/sendEmail.js'
+import {sendEmail} from '../utils/sendEmail.js'
 import paths from "path"
 import User from '../Model/Users/userSchema.js'
 const route = express.Router() 

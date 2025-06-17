@@ -3,6 +3,7 @@ import User from "../../Model/Users/userSchema.js"
 import getTopDoctors from "./matchDoctorAlgorithm.js"
 import jwt from "jsonwebtoken"
 import {createZoomMeeting, deleteZoomMeeting} from "./zoomservice.js"
+import {sendAppointmentMail} from "../../utils/sendEmail.js"
 
 let probableAppointment = []
 
@@ -89,6 +90,8 @@ export const bookAppointment = async (req, res) =>{
         meetingUrl: zoomMeeting.join_url,
         meetingID: zoomMeeting.id
     }
+
+    //sendAppointmentMail(doctor.email, patient.email, probableAppointment[5],  zoomMeeting.join_url, probableAppointment[6])
 
     probableAppointment = []
 
