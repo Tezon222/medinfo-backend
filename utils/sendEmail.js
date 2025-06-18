@@ -19,7 +19,7 @@ const transport = nodemailer.createTransport({
   }
 });
 
-const sendEmail = (receiver, name, subject, content, directory) => {
+export const sendEmail = (receiver, name, subject, content, directory) => {
   ejs.renderFile(
     directory,
     { content, name },
@@ -45,6 +45,26 @@ const sendEmail = (receiver, name, subject, content, directory) => {
   );
 };
 
-export default sendEmail
+export const sendAppointmentMail = (doctorEmail, patientEmail, reason, meetingLink, date) => {
+    
+  var mailOptions = { 
+    from: 'MedInfo Nigeria',
+    to:  `${doctorEmail}, ${patientEmail}`,
+    subject: `Appointment Scheduled for ${reason}`,
+    html: `<p>Hello!</p>
+    <p>This is to inform you of your appointment scheduled for ${date}</p>
+    <p>Please click on the link on the date of your appointment to access the virtual meeting room: ${meetingLink}</p>
+    `  
+  }
+
+  transporter.sendMail(mailOptions, (err, info)=>{
+    if (error) {
+        return console.log(error);
+      }
+      console.log("Message sent: %s", info);
+  })  
+}  
+
+
 
 

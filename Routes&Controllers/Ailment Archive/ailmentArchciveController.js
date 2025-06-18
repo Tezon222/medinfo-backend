@@ -14,14 +14,15 @@ const diseaseFilePath = path.join(__dirname, 'medinfo.json')
 // @desc    Get All Diseases
 // @route   GET /diseases/allDiseases?page=${}&limit=6
 // @returns Object of page, limit, total diseases and Diseases Array
-// @access  Public 
 export const getAllDiseases = (req, res) => {
     try {
         fs.readFile(diseaseFilePath, 'utf8', (err, data) => {
             if (err) {
-                console.log(err)
-                res.status(500).json({ message: "Error reading the JSON file" })
-                return;
+                return res.status(500).json({
+                    status: "Error",
+                    message: "Error reading the JSON file",
+                    errors: `${err}`
+                })
             }
 
             const diseases = JSON.parse(data)
@@ -51,47 +52,68 @@ export const getAllDiseases = (req, res) => {
                 diseases: simplifiedDiseases
             }
 
-            res.status(200).json(response)
+            res.status(200).json({
+                status: "Success",
+                message: "Data retrieved successfully",
+                data: response
+            })
         })
     } catch (err) {
-        res.status(500).json({ message: `Error fetching data from JSON file: ${err}` })
+        res.status(500).json({   
+            status: "Error",
+            message: "Error fetching data from JSON file",
+            errors: `${err}`
+        })
     }
 }
 
 // @desc    Get One Diseases
 // @route   GET /diseases/oneDisease?name=${}
 // @returns Object of specific Disease containing disease, symptom, description and precaution
-// @access  Public
 export const getOneDisease = (req, res) => {
     try {
         fs.readFile(diseaseFilePath, 'utf8', (err, data) => {
             if (err) {
-                console.log(err)
-                res.status(500).json({ message: "Error reading the JSON file" })
-                return
+                return res.status(500).json({
+                    status: "Error",
+                    message: "Error reading the JSON file",
+                    errors: `${err}`
+                })
             }
             const diseases = JSON.parse(data)
 
             // Get the disease name from the query parameter
             const diseaseName = req.query.name
             if (!diseaseName) {
-                res.status(400).json({ message: "Disease name query parameter is required" })
-                return
+                return res.status(400).json({ 
+                    status: "Error",
+                    message: "Disease name query parameter is required" 
+                }) 
             }
 
             // Find the disease object with the specified name
             const oneDisease = diseases.find(disease => disease.Disease.toLowerCase() === diseaseName.toLowerCase())
 
             if (!oneDisease) {
-                res.status(404).json({ message: "Disease not found" })
-                return
+                return res.status(404).json({
+                    status: "Error",
+                    message: "Disease not found" 
+                }) 
             }
 
-            res.status(200).json(oneDisease)
+            res.status(200).json({
+                status: "Success",
+                message: "Data retrieved successfully",
+                data: oneDisease
+            })
 
         })
     } catch (err) {
-        res.status(500).json({ message: `Error fetching data from JSON file: ${err}` })
+        res.status(500).json({   
+            status: "Error",
+            message: "Error fetching data from JSON file",
+            errors: `${err}`
+        })
     }
 }
 
@@ -103,9 +125,11 @@ export const addDisease = (req, res) => {
     try {
         fs.readFile(diseaseFilePath, 'utf8', (err, data) => {
             if (err) {
-                console.log(err)
-                res.status(500).json({ message: "Error reading the JSON file" })
-                return
+                return res.status(500).json({
+                    status: "Error",
+                    message: "Error reading the JSON file",
+                    errors: `${err}`
+                })
             }
             let diseases = JSON.parse(data)
 
@@ -126,11 +150,19 @@ export const addDisease = (req, res) => {
                     return
                 }
 
-                res.status(200).json({ message: "Disease added successfully", disease: newDisease })
+                res.status(200).json({ 
+                    status: "Success", 
+                    message: "Disease added successfully", 
+                    data: newDisease 
+                })
             })
         })
     } catch (err) {
-        res.status(500).json({ message: `Error processing request: ${err}` })
+        res.status(500).json({
+            status: "Error",
+            message: "Error processing request",
+            errors: `${err}`
+        })
     }
 }
 
@@ -141,25 +173,32 @@ export const updateDisease = (req, res) => {
     try {
         fs.readFile(diseaseFilePath, 'utf8', (err, data) => {
             if (err) {
-                console.log(err)
-                res.status(500).json({ message: "Error reading the JSON file" })
-                return
+                return res.status(500).json({
+                    status: "Error",
+                    message: "Error reading the JSON file",
+                    errors: `${err}`
+                })
             }
+
             let diseases = JSON.parse(data)
 
             // Get the disease name from the query parameter
             const diseaseName = req.query.name
             if (!diseaseName) {
-                res.status(400).json({ message: "Disease name query parameter is required" })
-                return
+                return res.status(400).json({ 
+                    status: "Error",
+                    message: "Disease name query parameter is required" 
+                })
             }
 
             // Find the index of the disease object with the specified name
             const diseaseIndex = diseases.findIndex(disease => disease.Disease.toLowerCase() === diseaseName.toLowerCase())
 
             if (diseaseIndex === -1) {
-                res.status(404).json({ message: "Disease not found" })
-                return
+                return res.status(404).json({
+                    status: "Error",
+                    message: "Disease not found"
+                })
             }
 
             // Update the disease details
@@ -174,16 +213,26 @@ export const updateDisease = (req, res) => {
             // Write the updated array back to the file
             fs.writeFile(diseaseFilePath, JSON.stringify(diseases, null, 2), (err) => {
                 if (err) {
-                    console.log(err)
-                    res.status(500).json({ message: "Error writing to the JSON file" })
-                    return
+                    // console.log(err)
+                    return res.status(500).json({
+                        status: "Error", 
+                        message: "Error writing to the JSON file" 
+                    })
                 }
 
-                res.status(200).json({ message: "Disease updated successfully", disease: diseases[diseaseIndex] })
+                res.status(200).json({ 
+                    status: "Success", 
+                    message: "Disease updated successfully", 
+                    data: diseases[diseaseIndex] 
+                })
             })
         })
     } catch (err) {
-        res.status(500).json({ message: `Error processing request: ${err}` })
+        res.status(500).json({
+            status: "Error",
+            message: "Error processing request",
+            errors: `${err}`
+        })
     }
 }
 
@@ -195,24 +244,31 @@ export const deleteDisease = (req, res) => {
         fs.readFile(diseaseFilePath, 'utf8', (err, data) => {
             if (err) {
                 console.log(err)
-                res.status(500).json({ message: "Error reading the JSON file" })
-                return
+                return res.status(500).json({
+                    status: "Error",
+                    message: "Error reading the JSON file",
+                    errors: `${err}`
+                })
             }
             let diseases = JSON.parse(data)
 
             // Get the disease name from the query parameter
             const diseaseName = req.query.name
             if (!diseaseName) {
-                res.status(400).json({ message: "Disease name query parameter is required" })
-                return
+                return res.status(400).json({ 
+                    status: "Error",
+                    message: "Disease name query parameter is required" 
+                })
             }
 
             // Find the index of the disease object with the specified name
             const diseaseIndex = diseases.findIndex(disease => disease.Disease.toLowerCase() === diseaseName.toLowerCase())
 
             if (diseaseIndex === -1) {
-                res.status(404).json({ message: "Disease not found" })
-                return
+                return res.status(404).json({ 
+                    status: "Error", 
+                    message: "Disease not found" 
+                })
             }
 
             // Remove the disease from the array
@@ -221,16 +277,25 @@ export const deleteDisease = (req, res) => {
             // Write the updated array back to the file
             fs.writeFile(diseaseFilePath, JSON.stringify(diseases, null, 2), (err) => {
                 if (err) {
-                    console.log(err)
-                    res.status(500).json({ message: "Error writing to the JSON file" })
-                    return
+                    // console.log(err)
+                    return res.status(500).json({ 
+                        status: "Error",
+                        message: "Error writing to the JSON file" 
+                    })
                 }
 
-                res.status(200).json({ message: "Disease deleted successfully" })
+                res.status(200).json({
+                    status: "Success!",
+                    message: "Disease deleted successfully" 
+                })
             })
         })
     } catch (err) {
-        res.status(500).json({ message: `Error processing request: ${err}` })
+        res.status(500).json({
+            status: "Error",
+            message: "Error processing request",
+            errors: `${err}`
+        })
     }
 }
 

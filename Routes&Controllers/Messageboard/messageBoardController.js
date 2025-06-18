@@ -4,9 +4,15 @@ import User from "../../Model/Users/userSchema.js"
 export const getAllPosts = async (req, res)=>{
   try {
       const posts = await User.find()
-    return  res.status(200).json(posts)
+      return  res.status(200).json({
+        messsage: "Success!", 
+        data: posts
+      })
     } catch (err) {
-     return res.status(400).json({ error: err.message })
+     return res.status(400).json({
+        message: "Error", 
+        error: err.message
+      })
     }
 }
  
@@ -15,7 +21,10 @@ export const getPostById = async (req, res)=>{
     const post = await User.findById(req.params.postId) 
 
     if (!post) {
-        return res.status(404).json({ error: "Post not found." })
+      return res.status(404).json({
+         message: "Error", 
+         error: "Post not found."
+       })
     }
 
     const userId = req.params.userId
@@ -26,9 +35,15 @@ export const getPostById = async (req, res)=>{
       await post.save()
     }
 
-   return res.status(200).json(post)
+   return res.status(200).json({
+      messsage: "Success!", 
+      data: post
+    })
   } catch (err) {
-   return res.status(400).json({ error: err.message })
+   return res.status(400).json({ 
+    message: "Error", 
+    error: err.message 
+   })
   }
 }
 
@@ -42,10 +57,16 @@ export const createPost = async(req, res)=>{
         const post = new postModel({ author, title, content })
         await post.save()
 
-        return res.status(201).json(post)
+        return res.status(200).json({
+        messsage: "Success!", 
+        data: post
+      })
     }catch(err){
-        return res.status(400).json({ Error: err.message })
-    }
+      return res.status(400).json({ 
+      message: "Error", 
+      error: err.message 
+    })
+  }
 }
 
 export const createComment = async(req, res)=>{
@@ -58,22 +79,34 @@ export const createComment = async(req, res)=>{
 
         // Check if the user is a doctor
         if (user.role !== "Doctor") {
-          return res.status(403).json({ error: "Only doctors can comment." })
+          return res.status(403).json({ 
+            message: "Error", 
+            error: "Only doctors can comment." 
+          })
         }
     
         const { commentContent } = req.body
         const post = await postModel.findById(postId)
     
         if (!post) {
-          return res.status(404).json({ error: "Post not found." })
+          return res.status(404).json({ 
+            message: "Error", 
+            error: "Post not found." 
+          })
         }
     
         post.comments.push({ commentAuthor, commentContent })
         post.commentCount ++
         await post.save()
     
-       return res.status(201).json(post)
+       return res.status(201).json({
+        message: "Success!", 
+        data: post
+       })
       } catch (error) {
-        return res.status(400).json({ error: error.message })
+        return res.status(400).json({ 
+          message: "Error",
+          error: error.message
+         })
       }
 }
